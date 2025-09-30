@@ -1,0 +1,153 @@
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class HandleMessage {
+  // Success
+  static void success(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+  // Error
+  static void error(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+  // Warning
+  static void warning(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.orange,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+  // Info
+  static void info(String msg) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.blue,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+  // No Network
+  static void noNetwork() {
+    Fluttertoast.showToast(
+      msg: "No Internet Connection",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.grey.shade800,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+}
+
+class MessageDialog {
+  static void networkError() {
+    Get.defaultDialog(
+      title: "Network Error",
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      middleText: "There was an error connecting. Please check your internet.",
+      middleTextStyle: const TextStyle(fontSize: 14),
+      textConfirm: "OK",
+      confirmTextColor: Colors.white,
+      onConfirm: () {
+        Get.back();
+      },
+    );
+  }
+
+  static void error(String msg) {
+    Get.defaultDialog(
+      title: "Error",
+      middleText: msg,
+      textConfirm: "OK",
+      confirmTextColor: Colors.white,
+      onConfirm: () {
+        Get.back();
+      },
+    );
+  }
+
+  static void success(String msg) {
+    Get.snackbar(
+      "Success",
+      msg,
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
+}
+
+class AttendanceDialog {
+  static void confirmCheckIn({
+    required VoidCallback onConfirm,
+    VoidCallback? onCancel,
+  }) {
+    Get.defaultDialog(
+      title: "Check-In",
+      titlePadding: EdgeInsets.symmetric(vertical: 16.0),
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      middleText: "Do you want to check-in now?",
+      textCancel: "Cancel",
+      cancelTextColor: Colors.red,
+      textConfirm: "Confirm",
+      confirmTextColor: Colors.white,
+      buttonColor: Colors.green,
+      onCancel: () {
+        if (onCancel != null) onCancel();
+      },
+      onConfirm: () {
+        Get.back();
+        onConfirm();
+      },
+    );
+  }
+
+  static void confirmCheckOut({
+    required VoidCallback onConfirm,
+    VoidCallback? onCancel,
+  }) {
+    Get.defaultDialog(
+      title: "Check-Out",
+      titlePadding: EdgeInsets.symmetric(vertical: 16.0),
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      middleText: "Do you want to check-out now?",
+      textCancel: "Cancel",
+      cancelTextColor: Colors.red,
+      textConfirm: "Confirm",
+      confirmTextColor: Colors.white,
+      buttonColor: Colors.blue,
+      onCancel: () {
+        if (onCancel != null) onCancel();
+      },
+      onConfirm: () {
+        Get.back();
+        onConfirm();
+      },
+    );
+  }
+}

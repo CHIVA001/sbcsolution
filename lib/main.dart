@@ -1,0 +1,104 @@
+import 'package:cyspharama_app/bindings/app_binding.dart';
+import 'package:cyspharama_app/core/localization/transtation.dart';
+import 'package:cyspharama_app/core/themes/app_colors.dart';
+import 'package:cyspharama_app/routes/app_routes.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+    ),
+  );
+
+  await AppTranslations.loadTranslations(['en', 'kh', 'zh']);
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final box = GetStorage();
+    final String? savedLanguage = box.read('language');
+
+    return GetMaterialApp(
+      title: 'Cyspharama app',
+      debugShowCheckedModeBanner: false,
+      translations: AppTranslations(),
+      locale: savedLanguage != null
+          ? Locale(savedLanguage)
+          : const Locale('en'),
+      fallbackLocale: const Locale('en'),
+      theme: ThemeData(
+        //
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.bgColorLight),
+        //
+        scaffoldBackgroundColor: AppColors.backgroundColor,
+
+        // floating action button
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: AppColors.primaryColor,
+          elevation: 0,
+          iconSize: 32.0,
+          focusColor: AppColors.primaryColor,
+          highlightElevation: 0,
+        ),
+
+        // app bar theme
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.bgColorLight,
+          scrolledUnderElevation: 0,
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            fontSize: 24.0,
+            color: AppColors.textPrimary,
+          ),
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
+            statusBarBrightness: Brightness.light,
+          ),
+
+          //
+          iconTheme: IconThemeData(color: AppColors.textPrimary, size: 24.0),
+        ),
+        //---------------------------------
+        listTileTheme: const ListTileThemeData(
+          iconColor: AppColors.primaryLight,
+          textColor: AppColors.textPrimary,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: AppColors.primaryLight,
+            foregroundColor: Colors.white,
+          ),
+        ),
+        radioTheme: const RadioThemeData(
+          fillColor: WidgetStatePropertyAll(AppColors.primaryLight),
+          overlayColor: WidgetStatePropertyAll(Colors.transparent),
+        ),
+      ),
+      initialBinding: AppBinding(),
+      // initialRoute: isLogin ? AppRoutes.navBar : AppRoutes.login,
+      initialRoute: AppRoutes.splash,
+      getPages: AppRoutes.routes,
+    );
+    //   },
+    // );
+  }
+}

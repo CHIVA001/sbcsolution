@@ -1,0 +1,20 @@
+import 'dart:convert';
+import 'package:cyspharama_app/core/constants/app_url.dart';
+import 'package:http/http.dart' as http;
+import '../model/sale_model.dart';
+
+class SaleService {
+  Future<List<SaleModel>> fetchSales() async {
+    final response = await http.get(
+      Uri.parse(AppUrl.getSale),
+      headers: {'api-key': AppUrl.apiKey},
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body)['data'];
+      return data.map((e) => SaleModel.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to fetch sales');
+    }
+  }
+}
