@@ -25,7 +25,7 @@ class ReportDetail extends StatelessWidget {
         children: [
           Obx(
             () => SizedBox(
-              height: 500,
+              height: 520,
               child: Card(
                 color: AppColors.bgColorLight,
                 margin: EdgeInsets.all(16.0),
@@ -34,6 +34,12 @@ class ReportDetail extends StatelessWidget {
                   itemCount: _companyCtr.companies.length,
                   itemBuilder: (context, index) {
                     final item = _companyCtr.companies[index];
+                    final colorStatus = data.status! == 'approved'
+                        ? Colors.cyan
+                        : Colors.amberAccent;
+                    final colorStatusPayment = data.paymentStatus! == 'paid'
+                        ? Colors.green
+                        : Colors.cyan;
                     return Container(
                       padding: EdgeInsets.all(16.0),
                       child: Column(
@@ -60,7 +66,7 @@ class ReportDetail extends StatelessWidget {
                           ),
                           SizedBox(height: 16.0),
                           _textRow(
-                            title: 'Company Name:',
+                            title: 'Address:',
                             value:
                                 item.address?.replaceAllMapped(
                                   RegExp(r'<[^>]*>|&[^;]+;'),
@@ -83,28 +89,64 @@ class ReportDetail extends StatelessWidget {
                           ),
                           Divider(),
                           _textRow(title: 'Name:', value: data.fullName),
-                          _textRow(
-                            title: 'Playment Status:',
-
-                            widget: Container(
-                              width: 60,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryColor.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                              child: Text(
-                                data.paymentStatus!.toUpperCase().toString(),
+                          Row(
+                            children: [
+                              Text(
+                                'Payment Status',
                                 style: textMeduim().copyWith(
-                                  color: AppColors.primaryColor,
-                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.darkGrey,
                                 ),
                               ),
-                            ),
+                              Spacer(),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: colorStatusPayment.withOpacity(0.2),
+                                ),
+                                child: Text(
+                                  data.paymentStatus!,
+                                  style: TextStyle(
+                                    color: colorStatusPayment,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16.0),
+                          Row(
+                            children: [
+                              Text(
+                                'Status',
+                                style: textMeduim().copyWith(
+                                  color: AppColors.darkGrey,
+                                ),
+                              ),
+                              Spacer(),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  color: colorStatus.withOpacity(0.2),
+                                ),
+                                child: Text(
+                                  data.status!,
+                                  style: TextStyle(
+                                    color: colorStatus,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -122,75 +164,83 @@ class ReportDetail extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Earnings & Deduction',
+                    'Detail Report',
                     style: textBold().copyWith(
                       fontSize: 18.0,
                       color: AppColors.darkGrey,
                     ),
                   ),
+                  SizedBox(height: 8.0),
+                  Text('Date: ${data.date}', style: textdefualt()),
                   SizedBox(height: 16.0),
                   Table(
                     border: TableBorder.all(color: AppColors.darkGrey),
                     columnWidths: const <int, TableColumnWidth>{
-                      0: FixedColumnWidth(150),
+                      0: FixedColumnWidth(160),
                       1: FlexColumnWidth(2),
-                      2: FlexColumnWidth(2),
                     },
                     children: [
                       TableRow(
-                        decoration: BoxDecoration(),
-                        children: [
-                          _buildTableCell('Description', style: textBold()),
-                          _buildTableCell('Deduction', style: textBold()),
-                          _buildTableCell('Earnings', style: textBold()),
-                        ],
-                      ),
-                      TableRow(
                         children: [
                           _buildTableCell('Basic Salary', style: textdefualt()),
-                          _buildTableCell(''),
-                          _buildTableCell('${data.basicSalary}'),
+                          _buildTableCell(data.basicSalary ?? "-"),
                         ],
                       ),
                       TableRow(
                         children: [
                           _buildTableCell('Overtime', style: textdefualt()),
-                          _buildTableCell(''),
-                          _buildTableCell('${data.overtime}'),
+                          _buildTableCell(data.overtime ?? "-"),
                         ],
                       ),
                       TableRow(
                         children: [
                           _buildTableCell(
-                            'Absent Amount',
+                            'Cash advanced',
                             style: textdefualt(),
                           ),
-                          _buildTableCell('${data.absentAmount}'),
-                          _buildTableCell(''),
+                          _buildTableCell(data.cashAdvanced ?? "-"),
                         ],
                       ),
                       TableRow(
                         children: [
-                          _buildTableCell('Permission', style: textdefualt()),
-                          _buildTableCell('${data.permission}'),
-                          _buildTableCell(''),
+                          _buildTableCell(
+                            'Cash advanced',
+                            style: textdefualt(),
+                          ),
                         ],
                       ),
                       TableRow(
                         children: [
-                          _buildTableCell('Tax', style: textdefualt()),
-                          _buildTableCell('${data.taxPayment}'),
-                          _buildTableCell(''),
+                          _buildTableCell('Tax Payment', style: textdefualt()),
+                          _buildTableCell(data.taxPayment ?? "-"),
                         ],
                       ),
+
                       TableRow(
                         children: [
                           _buildTableCell('Net Salary', style: textdefualt()),
-                          _buildTableCell('', style: textdefualt()),
+                          _buildTableCell('${data.netSalary ?? "-"}'),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          _buildTableCell('Net Pay', style: textdefualt()),
+                          _buildTableCell('${data.netPay ?? "-"}'),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          _buildTableCell('Gross salary', style: textdefualt()),
+                          _buildTableCell(data.grossSalary ?? "-"),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
                           _buildTableCell(
-                            '\$${data.netSalary}',
+                            'Total Gross salary',
                             style: textdefualt(),
                           ),
+                          _buildTableCell(data.totalGrossSalary ?? "-"),
                         ],
                       ),
                       TableRow(
@@ -203,13 +253,7 @@ class ReportDetail extends StatelessWidget {
                             ),
                           ),
                           _buildTableCell(
-                            '',
-                            style: textdefualt().copyWith(
-                              color: AppColors.textLight,
-                            ),
-                          ),
-                          _buildTableCell(
-                            '\$${data.totalPaid}',
+                            '${data.totalPaid ?? "-"}',
                             style: textdefualt().copyWith(
                               color: AppColors.textLight,
                             ),

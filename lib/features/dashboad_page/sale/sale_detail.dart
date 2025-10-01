@@ -1,4 +1,5 @@
 import 'package:cyspharama_app/core/themes/app_colors.dart';
+import 'package:cyspharama_app/core/themes/app_style.dart';
 import 'package:flutter/material.dart';
 import 'model/sale_model.dart';
 
@@ -36,14 +37,65 @@ class SaleDetailPage extends StatelessWidget {
   }
 
   Widget _buildSummaryCard(BuildContext context) {
+    final colorStatus = sale.saleStatus == 'completed'
+        ? Colors.green
+        : Colors.amber;
+    final colorStatusPay = sale.paymentStatus == 'pending'
+        ? Colors.amber
+        : Colors.green;
     return _buildCard(
       context,
       title: 'Sale Summary',
       children: [
         _infoRow('Date', sale.date.substring(0, 10)),
         _infoRow('Customer', sale.customer),
-        _infoRow('Sale Status', sale.saleStatus),
-        _infoRow('Payment Status', sale.paymentStatus),
+        Row(
+          children: [
+            Text(
+              'Sale Status',
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                color: AppColors.darkGrey,
+              ),
+            ),
+            Spacer(),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: colorStatus.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                sale.saleStatus,
+                style: TextStyle(color: colorStatus),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 4),
+        Row(
+          children: [
+            Text(
+              'Payment Status',
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                color: AppColors.darkGrey,
+              ),
+            ),
+            Spacer(),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: colorStatusPay.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Text(
+                sale.paymentStatus,
+                style: TextStyle(color: colorStatusPay),
+              ),
+            ),
+          ],
+        ),
         _infoRow('Grand Total', '\$${sale.grandTotal.toStringAsFixed(2)}'),
       ],
     );
