@@ -151,7 +151,10 @@ class _AttendancePageState extends State<AttendancePage> {
                 final formattedCheckOutTime = checkOutDate != null
                     ? DateFormat('hh:mm:ss a').format(checkOutDate)
                     : "== ** ==";
-
+                final totalTime = item.shiftTotalTime != null
+                    ? '${item.shiftTotalTime} mn'
+                    : '== ** ==';
+                    
                 return AnimationConfiguration.staggeredList(
                   position: index,
                   child: SlideAnimation(
@@ -185,7 +188,7 @@ class _AttendancePageState extends State<AttendancePage> {
                           final totalMinute = item.shiftTotalTime != null
                               ? '${item.shiftTotalTime} minute'
                               : 'You not Check-out';
-            
+
                           Get.defaultDialog(
                             title: 'Attendance Detail',
                             content: Column(
@@ -256,7 +259,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                         ),
                                       ),
                                       Text(
-                                        'Total time: ${item.shiftTotalTime} mn',
+                                        'Total time: $totalTime',
                                         style: textBold().copyWith(
                                           color: AppColors.warningColor,
                                         ),
