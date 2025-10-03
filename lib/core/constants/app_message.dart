@@ -26,8 +26,7 @@ void showCustomSnackbar({
       icon = Icons.warning;
       break;
     case SnackbarType.info:
-    default:
-      backgroundColor = Colors.blue;
+    backgroundColor = Colors.blue;
       icon = Icons.info;
       break;
   }
