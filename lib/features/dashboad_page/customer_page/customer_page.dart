@@ -1,10 +1,12 @@
+import 'package:cyspharama_app/core/localization/my_text.dart';
 import 'package:cyspharama_app/core/themes/app_style.dart';
+import 'package:cyspharama_app/widgets/build_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
-import '../../../core/themes/app_colors.dart'; 
-import 'controller/customer_controller.dart'; 
-import 'customer_detail.dart'; 
+import '../../../core/themes/app_colors.dart';
+import 'controller/customer_controller.dart';
+import 'customer_detail.dart';
 
 class CustomerPage extends StatelessWidget {
   CustomerPage({super.key});
@@ -17,11 +19,7 @@ class CustomerPage extends StatelessWidget {
     _scrollController.addListener(_onScroll);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Customers'),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-      ),
+      appBar: buildAppBar(title: MyText.customer),
       body: Obx(() {
         if (_controller.state.value == ViewState.loading &&
             _controller.customers.isEmpty) {

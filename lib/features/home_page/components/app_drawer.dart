@@ -17,7 +17,8 @@ class AppDrawer extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawer> {
   final _controller = Get.find<AuthController>();
   final _navCtr = Get.find<NavBarController>();
-  void _changeLanguage(String newLangeuage) {
+  final _key = GlobalKey<ScaffoldState>();
+  bool _changeLanguage(String newLangeuage) {
     final box = GetStorage();
     box.write('language', newLangeuage);
     // log(newLangeuage);
@@ -25,6 +26,7 @@ class _AppDrawerState extends State<AppDrawer> {
     setState(() {
       selectedLang = newLangeuage;
     });
+    return false;
   }
 
   void _closeDrawerAndDialog() {
@@ -126,7 +128,8 @@ class _AppDrawerState extends State<AppDrawer> {
                   ListTile(
                     onTap: () async {
                       _changeLanguage('en');
-                      _closeDrawerAndDialog();
+                      // _closeDrawerAndDialog();
+                      _key.currentState?.closeEndDrawer();
                       Get.offAllNamed(AppRoutes.navBar);
                     },
                     trailing: Radio<String>(
@@ -140,7 +143,8 @@ class _AppDrawerState extends State<AppDrawer> {
                   ListTile(
                     onTap: () {
                       _changeLanguage('kh');
-                      _closeDrawerAndDialog();
+                      // _closeDrawerAndDialog();
+                      _key.currentState?.closeEndDrawer();
                       Get.offAllNamed(AppRoutes.navBar);
                     },
                     title: Text(MyText.khmer.tr),
@@ -155,7 +159,8 @@ class _AppDrawerState extends State<AppDrawer> {
                   ListTile(
                     onTap: () {
                       _changeLanguage('zh');
-                      _closeDrawerAndDialog();
+                      // _closeDrawerAndDialog();
+                      _key.currentState?.closeEndDrawer();
                       Get.offAllNamed(AppRoutes.navBar);
                     },
                     title: Text(MyText.chinese.tr),

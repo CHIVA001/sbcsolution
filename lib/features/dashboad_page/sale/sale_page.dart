@@ -201,6 +201,7 @@ class SalesPage extends StatelessWidget {
               style: textdefualt().copyWith(
                 fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
                 color: valueColor,
+                // color: Colors.blueGrey.shade400,
               ),
             ),
           ),

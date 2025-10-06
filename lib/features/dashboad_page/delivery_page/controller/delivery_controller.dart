@@ -92,7 +92,11 @@ class DeliveryDetailPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
         leading: IconButton(
-          onPressed: () => Get.offAll(() => BottomNavBarPage()),
+          onPressed: () {
+            // Get.offAll(() => BottomNavBarPage());
+            Navigator.pop(context);
+            Navigator.pop(context);
+          },
           icon: Icon(
             Icons.arrow_back_ios_new,
             color: AppColors.backgroundColor,

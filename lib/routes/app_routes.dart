@@ -10,7 +10,7 @@ import '../features/dashboad_page/count_stock_page.dart';
 import '../features/dashboad_page/customer_page/customer_page.dart';
 import '../features/dashboad_page/day_off_page/day_off_page.dart';
 import '../features/dashboad_page/delivery_page/delivery_page.dart';
-import '../features/dashboad_page/delivery_page/scanner_page.dart';
+import '../features/dashboad_page/delivery_page/scan_dispatch_page.dart';
 import '../features/dashboad_page/product_page/product_page.dart';
 import '../features/dashboad_page/report_page/report_page.dart';
 import '../features/dashboad_page/sale/sale_page.dart';

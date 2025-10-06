@@ -17,7 +17,7 @@ AppBar buildAppBar({
             Get.back();
           },
 
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(Icons.arrow_back_ios_new),
     ),
     title: Text(title),
     actions: [action ?? SizedBox.shrink()],

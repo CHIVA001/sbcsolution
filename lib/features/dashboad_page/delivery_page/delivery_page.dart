@@ -1,6 +1,6 @@
 import 'package:cyspharama_app/core/themes/app_colors.dart';
 import 'package:cyspharama_app/features/dashboad_page/delivery_page/controller/delivery_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/delivery_page/scanner_page.dart';
+import 'package:cyspharama_app/features/dashboad_page/delivery_page/scan_dispatch_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/localization/my_text.dart';
