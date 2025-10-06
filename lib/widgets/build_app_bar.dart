@@ -28,6 +28,7 @@ AppBar buildAppBar({
 AppBar buildAppBarMain({required GlobalKey<ScaffoldState> scaffoldKey}) {
   return AppBar(
     backgroundColor: AppColors.bgColorLight,
+    centerTitle: false,
     leading: IconButton(
       onPressed: () {
         scaffoldKey.currentState?.openDrawer();

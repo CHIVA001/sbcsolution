@@ -9,7 +9,8 @@ import 'package:get/get.dart';
 import '../features/dashboad_page/count_stock_page.dart';
 import '../features/dashboad_page/customer_page/customer_page.dart';
 import '../features/dashboad_page/day_off_page/day_off_page.dart';
-import '../features/dashboad_page/delivery_page.dart';
+import '../features/dashboad_page/delivery_page/delivery_page.dart';
+import '../features/dashboad_page/delivery_page/scanner_page.dart';
 import '../features/dashboad_page/product_page/product_page.dart';
 import '../features/dashboad_page/report_page/report_page.dart';
 import '../features/dashboad_page/sale/sale_page.dart';
@@ -35,6 +36,7 @@ class AppRoutes {
   static const String addDayoff = '/add_day_off';
   static const String dayOffDetail = '/day_off_detail';
   static const String reportDetail = '/report_detail';
+  static const String scanDispatch = '/scan_dispatch';
 
   static List<GetPage> routes = [
     //
@@ -89,6 +91,11 @@ class AppRoutes {
       transition: Transition.rightToLeft,
     ),
     GetPage(
+      name: scanDispatch,
+      page: () => ScanDispatchPage(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
       name: splash,
       page: () => SplashScreenPage(),
       // transition: Transition.rightToLeft,
@@ -103,6 +110,7 @@ class AppRoutes {
       page: () => AddDayOff(),
       transition: Transition.downToUp,
     ),
+    
     // GetPage(
     //   name: reportDetail,
     //   page: () => ReportDetail(),

@@ -49,7 +49,7 @@ final List<Map<String, dynamic>> dashboadItem = [
   {
     'icon': '$path/delivery_icon.png',
     'title': MyText.delivery,
-    'page': () => AppRoutes.delivery,
+    'page': () => AppRoutes.scanDispatch,
   },
   {
     'icon': '$path/customer_icon.png',

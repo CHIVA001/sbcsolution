@@ -1,5 +1,6 @@
 import 'package:cyspharama_app/features/dashboad_page/attendance_page/controllers/shift_controller.dart';
 import 'package:cyspharama_app/features/dashboad_page/day_off_page/day_off_controller.dart';
+import 'package:cyspharama_app/features/dashboad_page/delivery_page/controller/delivery_controller.dart';
 import 'package:cyspharama_app/features/dashboad_page/report_page/report_controller.dart';
 import 'package:cyspharama_app/features/dashboad_page/sale/controller/sale_controller.dart';
 import 'package:cyspharama_app/features/dashboad_page/time_leave_page/time_leave_controller.dart';
@@ -23,7 +24,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => TimeLeaveController(), fenix: true);
     Get.lazyPut(() => DayOffController(), fenix: true);
     Get.lazyPut(() => ReportController(), fenix: true);
-    // Get.lazyPut(() => ShiftController(), fenix: true);
+    Get.lazyPut(() => DeliveryController(), fenix: true);
     Get.put(ShiftController(), permanent: true);
   }
 }

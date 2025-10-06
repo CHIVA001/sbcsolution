@@ -234,7 +234,7 @@ class ProductPage extends StatelessWidget {
                     ),
                   ),
                 );
-              },
+              }, 
             ),
           );
         }),
@@ -244,8 +244,8 @@ class ProductPage extends StatelessWidget {
 
   Widget _buildShimmerItem() {
     return Shimmer.fromColors(
-      baseColor: AppColors.lightGrey,
-      highlightColor: AppColors.bgColorLight,
+      baseColor: AppColors.lightGrey.withOpacity(0.5),
+      highlightColor: AppColors.bgColorLight.withOpacity(0.1),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         elevation: 4,
