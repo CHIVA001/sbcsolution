@@ -14,10 +14,10 @@ class ScanDispatchPage extends StatefulWidget {
 
 class _ScanDispatchPageState extends State<ScanDispatchPage> {
   bool _isScanning = true;
+  bool _flashOn = false;
 
   late final MobileScannerController _scannerController;
   final controller = Get.put(DeliveryController());
-
   @override
   void initState() {
     super.initState();
@@ -94,6 +94,29 @@ class _ScanDispatchPageState extends State<ScanDispatchPage> {
               ),
             ),
           ),
+          // Flash Button
+          Positioned(
+            top: 60,
+            right: 16.0,
+            child: IconButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(
+                  AppColors.lightGrey.withOpacity(0.1),
+                ),
+              ),
+              icon: Icon(
+                _flashOn ? Icons.flash_on : Icons.flash_off,
+                color: _flashOn ? Colors.yellow : AppColors.bgColorLight,
+                size: 28,
+              ),
+              onPressed: () {
+                _scannerController.toggleTorch();
+                setState(() {
+                  _flashOn = !_flashOn; // update UI
+                });
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -127,6 +150,7 @@ class _ScannerOverlay extends StatelessWidget {
 
           // Instructions Text
           Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.0),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             decoration: BoxDecoration(
               color: Colors.black54,
@@ -145,7 +169,7 @@ class _ScannerOverlay extends StatelessWidget {
                           ? 'Loading Dispatch...'
                           : 'Scan Complete.',
                       style: const TextStyle(
-                        color: Colors.yellow,
+                        color: AppColors.warningColor,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),

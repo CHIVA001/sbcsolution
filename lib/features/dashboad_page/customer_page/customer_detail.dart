@@ -1,3 +1,4 @@
+import 'package:cyspharama_app/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'customer_model.dart'; // avatar colors
 
@@ -44,7 +45,7 @@ class CustomerDetailPage extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.backgroundColor,
         elevation: 0.5,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -97,7 +98,8 @@ class CustomerDetailPage extends StatelessWidget {
 
   Widget _buildProfileHeaderCard(CustomerModel customer, Color color) {
     return Card(
-      elevation: 4,
+      // elevation: 4,
+      color: AppColors.bgColorLight,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -135,7 +137,8 @@ class CustomerDetailPage extends StatelessWidget {
 
   Widget _buildInfoCard(String title, List<Widget> details) {
     return Card(
-      elevation: 2,
+      // elevation: 2,
+      color: AppColors.bgColorLight,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),

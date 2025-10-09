@@ -37,7 +37,7 @@ class _BottomNavBarState extends State<BottomNavBarPage> {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.black87,
         colorText: Colors.white,
-        margin: const EdgeInsets.all(12),
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
         borderRadius: 10,
         duration: const Duration(seconds: 2),
       );
@@ -57,6 +57,10 @@ class _BottomNavBarState extends State<BottomNavBarPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
+      // onWillPop: () async {
+      //   Get.snackbar('title', 'message');
+      //   return false;
+      // },
       child: Obx(
         () => Scaffold(
           body: IndexedStack(index: _controller.currentIndex, children: _pages),

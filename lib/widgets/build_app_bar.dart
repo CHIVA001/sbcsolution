@@ -10,6 +10,7 @@ AppBar buildAppBar({
   void Function()? onPressed,
 }) {
   return AppBar(
+    backgroundColor: AppColors.primaryColor,
     leading: IconButton(
       onPressed:
           onPressed ??
@@ -17,9 +18,9 @@ AppBar buildAppBar({
             Get.back();
           },
 
-      icon: Icon(Icons.arrow_back_ios_new),
+      icon: Icon(Icons.arrow_back_ios_new, color: AppColors.backgroundColor),
     ),
-    title: Text(title),
+    title: Text(title, style: TextStyle(color: AppColors.backgroundColor)),
     actions: [action ?? SizedBox.shrink()],
     centerTitle: true,
   );

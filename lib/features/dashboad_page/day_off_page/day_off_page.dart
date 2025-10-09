@@ -18,17 +18,15 @@ class DayOffPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(
+      appBar: buildAppBar(  
         title: MyText.dayOff.tr,
         action: Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 16.0),
           child: IconButton(
             onPressed: () => Get.toNamed(AppRoutes.addDayoff),
-            color: AppColors.primaryColor,
+            color: AppColors.textPrimary,
             style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(
-                AppColors.primaryColor.withOpacity(0.2),
-              ),
+              backgroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
             ),
             icon: Icon(Icons.add, size: 24.0),
           ),

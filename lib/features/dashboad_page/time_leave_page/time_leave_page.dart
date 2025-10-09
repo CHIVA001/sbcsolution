@@ -22,14 +22,12 @@ class TimeLeavePage extends StatelessWidget {
       appBar: buildAppBar(
         title: MyText.timeLeave.tr,
         action: Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsets.only(right: 16.0),
           child: IconButton(
             onPressed: () => Get.toNamed(AppRoutes.addTimeLeave),
-            color: AppColors.primaryColor,
+            color: AppColors.textPrimary,
             style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(
-                AppColors.primaryColor.withOpacity(0.2),
-              ),
+              backgroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
             ),
             icon: Icon(Icons.add, size: 24.0),
           ),

@@ -18,13 +18,13 @@ class ShiftService {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        log('Response: $data');
+        // log('Response: $data');
 
         if (data['status'] == true && data['data'] != null) {
           final currentShiftData = data['data']['current_shift'];
 
           if (currentShiftData is List && currentShiftData.isEmpty) {
-            log('No current shift available.');
+            // log('No current shift available.');
             return null;
           }
 

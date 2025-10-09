@@ -49,8 +49,13 @@ class ProfilePage extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 64.0),
-            
+            Text(
+              '@${user?.username}',
+              style: textdefualt().copyWith(color: AppColors.darkGrey),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 40.0),
+
             SizedBox(height: 12.0),
             _textInput(
               icon: Icons.phone,
@@ -73,6 +78,7 @@ class ProfilePage extends StatelessWidget {
               icon: Icons.work,
               hintText: user?.company != null ? '${user?.company}' : 'N/A',
             ),
+            SizedBox(height: 40.0),
           ],
         );
       }),

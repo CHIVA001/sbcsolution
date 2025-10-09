@@ -52,7 +52,11 @@ class _AttendancePageState extends State<AttendancePage> {
           padding: const EdgeInsets.only(right: 8.0),
           child: IconButton(
             onPressed: () => _selectDate(context),
-            icon: Icon(Icons.date_range, size: 26.0),
+            icon: Icon(
+              Icons.date_range,
+              size: 26.0,
+              color: AppColors.textLight,
+            ),
           ),
         ),
       ),
@@ -154,7 +158,7 @@ class _AttendancePageState extends State<AttendancePage> {
                 final totalTime = item.shiftTotalTime != null
                     ? '${item.shiftTotalTime} mn'
                     : '== ** ==';
-                    
+
                 return AnimationConfiguration.staggeredList(
                   position: index,
                   child: SlideAnimation(

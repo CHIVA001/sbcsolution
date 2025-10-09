@@ -19,132 +19,244 @@ class CustomerPage extends StatelessWidget {
     _scrollController.addListener(_onScroll);
 
     return Scaffold(
-      appBar: buildAppBar(title: MyText.customer),
-      body: Obx(() {
-        if (_controller.state.value == ViewState.loading &&
-            _controller.customers.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [CircularProgressIndicator()],
-            ),
-          );
-        }
-
-        if (_controller.isError.value) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error,
-                  size: 32,
-                  color: AppColors.dangerColor.withOpacity(0.5),
-                ),
-                Text('Error something!', style: textdefualt()),
-                SizedBox(height: 24.0),
-                ElevatedButton.icon(
-                  onPressed: () => _controller.fetchCustomers(),
-                  label: Text('Try again', style: textMeduim()),
-                ),
-              ],
-            ),
-          );
-        }
-        return RefreshIndicator(
-          onRefresh: () => _controller.fetchCustomers(isRefresh: true),
-          child: AnimationLimiter(
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
-              ),
-              controller: _scrollController,
-              itemCount:
-                  _controller.customers.length +
-                  (_controller.isLoadingMore.value ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index == _controller.customers.length) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                }
-
-                final customer = _controller.customers[index];
-                final firstLetter = customer.name[0].toUpperCase();
-                final avatarColor = listColors[firstLetter] ?? Colors.grey;
-
-                return AnimationConfiguration.staggeredList(
-                  position: index,
-                  duration: const Duration(milliseconds: 375),
-                  child: SlideAnimation(
-                    verticalOffset: 50.0,
-                    child: FadeInAnimation(
-                      child: Card(
-                        elevation: 2,
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ListTile(
-                          onTap: () {
-                            Get.to(
-                              () => CustomerDetailPage(customer: customer),
-                              transition: Transition.downToUp,
-                              duration: const Duration(milliseconds: 300),
-                            );
-                          },
-                          leading: CircleAvatar(
-                            backgroundColor: avatarColor,
-                            child: Text(
-                              firstLetter,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          title: Text(
-                            customer.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                          subtitle: Text('Code: ${customer.code}'),
-                          trailing: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: customer.status.toLowerCase() == 'active'
-                                  ? Colors.green
-                                  : Colors.red,
-                            ),
-                            child: Text(
-                              customer.status,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ),
+      backgroundColor: Colors.grey.shade300,
+      appBar: buildAppBar(title: MyText.customer.tr),
+      body: Column(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Obx(
+                () => Container(
+                  margin: const EdgeInsets.all(16.0),
+                  height: 50,
+                  child: TextField(
+                    controller: _controller.searchInputController,
+                    decoration: InputDecoration(
+                      hintText: 'Search name',
+                      prefixIcon: Icon(Icons.search),
+                      suffixIcon: _controller.searchTerm.isNotEmpty
+                          ? IconButton(
+                              onPressed: () => _controller.clearShearch(),
+                              icon: Icon(Icons.close),
+                            )
+                          : null,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
                       ),
                     ),
+                    onChanged: _controller.onSearchChange,
+                  ),
+                ),
+              ),
+              Obx(
+                () => Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Customer: ${_controller.serverTotalCustomers} ',
+                          style: textMeduim(),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Active: ${_controller.activeCustomersCount}',
+                          style: textMeduim(),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Inactive: ${_controller.inactiveCustomersCount}',
+                          style: textMeduim(),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Divider(),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Obx(() {
+              if (_controller.state.value == ViewState.loading &&
+                  _controller.customers.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [CircularProgressIndicator()],
                   ),
                 );
-              },
-            ),
+              }
+
+              if (_controller.isError.value) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.error,
+                        size: 32,
+                        color: AppColors.dangerColor.withOpacity(0.5),
+                      ),
+                      Text('Error something!', style: textdefualt()),
+                      SizedBox(height: 24.0),
+                      ElevatedButton.icon(
+                        onPressed: () => _controller.fetchCustomers(),
+                        label: Text('Try again', style: textMeduim()),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              if (_controller.filteredCustomers.isEmpty &&
+                  _controller.searchTerm.isNotEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.search_off,
+                        size: 64,
+                        color: AppColors.darkGrey,
+                      ),
+                      Text(
+                        'Not found!',
+                        style: textdefualt().copyWith(
+                          color: AppColors.darkGrey,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return RefreshIndicator(
+                onRefresh: () => _controller.fetchCustomers(isRefresh: true),
+                child: AnimationLimiter(
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
+                    controller: _scrollController,
+                    itemCount:
+                        _controller.filteredCustomers.length +
+                        (_controller.isLoadingMore.value &&
+                                _controller.searchTerm.isEmpty
+                            ? 1
+                            : 0),
+                    itemBuilder: (context, index) {
+                      if (index == _controller.filteredCustomers.length) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
+                      }
+
+                      final customer = _controller.filteredCustomers[index];
+                      final firstLetter = customer.name.isNotEmpty
+                          ? customer.name[0].toUpperCase()
+                          : '';
+                      final avatarColor =
+                          listColors[firstLetter] ?? Colors.grey;
+
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 375),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: Card(
+                              elevation: 2,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: ListTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    12.0,
+                                  ),
+                                ),
+                                tileColor: AppColors.backgroundColor,
+                                onTap: () {
+                                  Get.to(
+                                    () =>
+                                        CustomerDetailPage(customer: customer),
+                                    transition: Transition.downToUp,
+                                    duration: const Duration(milliseconds: 300),
+                                  );
+                                },
+                                leading: CircleAvatar(
+                                  backgroundColor: avatarColor,
+                                  child: Text(
+                                    firstLetter,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                title: Text(
+                                  customer.name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                subtitle: Text('Code: ${customer.code}'),
+                                trailing: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    color:
+                                        customer.status.toLowerCase() ==
+                                            'active'
+                                        ? Colors.green
+                                        : Colors.red,
+                                  ),
+                                  child: Text(
+                                    customer.status,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            }),
           ),
-        );
-      }),
+        ],
+      ),
     );
   }
 
