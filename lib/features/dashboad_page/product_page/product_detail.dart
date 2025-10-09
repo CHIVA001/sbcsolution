@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'models/product_model.dart';
 
 class ProductDetailPage extends StatelessWidget {
@@ -10,6 +11,10 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back_sharp),
+        ),
         title: Text(product.name),
         // backgroundColor: AppColors.bgColorLight,
       ),

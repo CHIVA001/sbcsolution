@@ -5,6 +5,7 @@ import 'package:cyspharama_app/features/dashboad_page/attendance_page/attenance_
 import 'package:cyspharama_app/features/dashboad_page/day_off_page/add_day_off.dart';
 import 'package:cyspharama_app/features/dashboad_page/time_leave_page/add_time_leave.dart';
 import 'package:cyspharama_app/features/home_page/home_page.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../features/dashboad_page/count_stock_page.dart';
 import '../features/dashboad_page/customer_page/customer_page.dart';
@@ -15,6 +16,7 @@ import '../features/dashboad_page/product_page/product_page.dart';
 import '../features/dashboad_page/report_page/report_page.dart';
 import '../features/dashboad_page/sale/sale_page.dart';
 import '../features/dashboad_page/time_leave_page/time_leave_page.dart';
+import '../features/notifications/notification_page.dart';
 
 class AppRoutes {
   static const String splash = '/splash';
@@ -37,6 +39,7 @@ class AppRoutes {
   static const String dayOffDetail = '/day_off_detail';
   static const String reportDetail = '/report_detail';
   static const String scanDispatch = '/scan_dispatch';
+  static const String notification = '/notification';
 
   static List<GetPage> routes = [
     //
@@ -48,52 +51,62 @@ class AppRoutes {
     GetPage(
       name: attendance,
       page: () => AttendancePage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: timeLeave,
       page: () => TimeLeavePage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: dayOff,
       page: () => DayOffPage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: report,
       page: () => ReportPage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: product,
       page: () => ProductPage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: countStock,
       page: () => CountStockPage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: sale,
       page: () => SalesPage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: delivery,
       page: () => DeliveryPage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: customer,
       page: () => CustomerPage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: scanDispatch,
       page: () => ScanDispatchPage(),
-      transition: Transition.rightToLeft,
+      // transition: Transition.rightToLeft,
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: splash,
@@ -103,14 +116,23 @@ class AppRoutes {
     GetPage(
       name: addTimeLeave,
       page: () => AddTimeLeave(),
-      transition: Transition.downToUp,
+      // transition: Transition.downToUp,
+      transitionDuration: Duration(milliseconds: 400),
+      customTransition: MyCustomTransition1(),
     ),
     GetPage(
       name: addDayoff,
       page: () => AddDayOff(),
-      transition: Transition.downToUp,
+      // transition: Transition.downToUp,
+      transitionDuration: Duration(milliseconds: 400),
+      customTransition: MyCustomTransition1(),
     ),
-    
+    GetPage(
+      name: notification,
+      page: () => NotificationPage(),
+      customTransition: MyCustomTransition(),
+    ),
+
     // GetPage(
     //   name: reportDetail,
     //   page: () => ReportDetail(),
@@ -123,4 +145,41 @@ class AppRoutes {
     // ),
     //===========================================================
   ];
+}
+
+class MyCustomTransition extends CustomTransition {
+  @override
+  Widget buildTransition(
+    BuildContext context,
+    Curve? curve,
+    Alignment? alignment,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: const Offset(0.2, 0.0),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic)),
+      child: FadeTransition(opacity: animation, child: child),
+    );
+  }
+}
+
+class MyCustomTransition1 extends CustomTransition {
+  @override
+  Widget buildTransition(
+    BuildContext context,
+    Curve? curve,
+    Alignment? alignment,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return ScaleTransition(
+      scale: CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+      child: FadeTransition(opacity: animation, child: child),
+    );
+  }
 }

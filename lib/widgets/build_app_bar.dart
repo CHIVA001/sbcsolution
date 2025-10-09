@@ -1,3 +1,4 @@
+import 'package:cyspharama_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,5 +38,19 @@ AppBar buildAppBarMain({required GlobalKey<ScaffoldState> scaffoldKey}) {
       icon: Icon(Icons.menu, color: AppColors.textPrimary),
     ),
     title: Image.asset(AppImage.logoApp, height: 40, width: 80),
+    actionsPadding: EdgeInsets.only(right: 8.0),
+    actions: [
+      IconButton(
+        onPressed: () => Get.toNamed(AppRoutes.notification),
+        icon: Icon(
+          Icons.notifications,
+          size: 24.0,
+          color: AppColors.textPrimary,
+        ),
+        style: ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.grey.shade200),
+        ),
+      ),
+    ],
   );
 }
