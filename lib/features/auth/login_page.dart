@@ -1,3 +1,4 @@
+import 'package:cyspharama_app/core/themes/app_colors.dart';
 import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -117,14 +118,24 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                     SizedBox(height: 40),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        _controller.login(
-                                          _usernameController.text,
-                                          _passwordController.text,
-                                        );
-                                      },
-                                      child: Text("Login"),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          _controller.login(
+                                            _usernameController.text,
+                                            _passwordController.text,
+                                          );
+                                        },
+                                        child: Text(
+                                          "Login",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.backgroundColor,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

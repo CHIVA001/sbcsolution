@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'package:cyspharama_app/bottom_nav_bar_page.dart';
+import 'package:cyspharama_app/core/handle/handle_error.dart';
 import 'package:cyspharama_app/data/models/user_model.dart';
 import 'package:cyspharama_app/routes/app_routes.dart';
 import 'package:cyspharama_app/services/auth_service.dart';
@@ -105,7 +106,7 @@ class AuthController extends GetxController with WidgetsBindingObserver {
       // _refreshUser();
 
       _isLoading(false);
-      Get.snackbar("Login", "Welcome ${response.firstName}!");
+      // Get.snackbar("Login", "Welcome ${response.firstName}!");
       _message("Login successful");
 
       Get.offAll(() => BottomNavBarPage());
@@ -114,11 +115,7 @@ class AuthController extends GetxController with WidgetsBindingObserver {
     } catch (e) {
       _isLoading(false);
       _message("Login failed: ${e.toString()}");
-      Get.snackbar(
-        "Error",
-        _message.value,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      MessageDialog.error('Username & Password invalid!');
     }
   }
 
