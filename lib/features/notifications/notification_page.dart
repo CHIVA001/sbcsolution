@@ -19,6 +19,7 @@ class NotificationPage extends StatelessWidget {
               size: 64.0,
               color: AppColors.darkGrey,
             ),
+            SizedBox(height: 8.0),
             Text(
               'Not have Notification',
               style: textMeduim().copyWith(color: AppColors.darkGrey),

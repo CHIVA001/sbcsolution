@@ -1,3 +1,4 @@
+import 'package:cyspharama_app/core/themes/app_colors.dart';
 import 'package:cyspharama_app/core/themes/app_style.dart';
 import 'package:cyspharama_app/features/home_page/components/app_drawer.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,17 @@ class HistoryPage extends StatelessWidget {
       // drawer
       drawer: AppDrawer(),
       body: Center(
-        child: Text('History update soon', style: textdefualt()),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.history, size: 64.0, color: AppColors.darkGrey),
+            SizedBox(height: 8.0),
+            Text(
+              'Not have history!',
+              style: textMeduim().copyWith(color: AppColors.darkGrey),
+            ),
+          ],
+        ),
         // child: Column(
         //   mainAxisAlignment: MainAxisAlignment.center,
         //   children: [

@@ -17,176 +17,191 @@ class AppDrawer extends StatefulWidget {
 class _AppDrawerState extends State<AppDrawer> {
   final _controller = Get.find<AuthController>();
   final _navCtr = Get.find<NavBarController>();
-  final _key = GlobalKey<ScaffoldState>();
-  bool _changeLanguage(String newLangeuage) {
-    final box = GetStorage();
-    box.write('language', newLangeuage);
-    // log(newLangeuage);
-    Get.updateLocale(Locale(newLangeuage));
-    setState(() {
-      selectedLang = newLangeuage;
-    });
-    return false;
-  }
-
-  void _closeDrawerAndDialog() {
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
-  }
-
   String? selectedLang;
+
   @override
   void initState() {
     super.initState();
     selectedLang = Get.locale?.languageCode ?? 'en';
   }
 
+  bool _changeLanguage(String newLanguage) {
+    final box = GetStorage();
+    box.write('language', newLanguage);
+    Get.updateLocale(Locale(newLanguage));
+    setState(() => selectedLang = newLanguage);
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final year = DateTime.now().year;
+
     return Drawer(
-      width: MediaQuery.of(context).size.width * 0.7,
-      shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(0)),
-      child: ListView(
-        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        padding: EdgeInsets.all(0),
-        children: [
-          DrawerHeader(
-            margin: EdgeInsets.all(0),
-            padding: EdgeInsetsGeometry.all(0),
-            decoration: BoxDecoration(color: AppColors.primaryLight),
-            child: Obx(() {
+      width: MediaQuery.of(context).size.width * 0.75,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(0),
+      ),
+      backgroundColor: AppColors.backgroundColor,
+      child: SafeArea(
+        child: Column(
+          children: [
+            Obx(() {
               final user = _controller.user.value;
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: user != null
-                          ? NetworkImage('${user.image}')
-                          : AssetImage('assets/images/defualt_user.png'),
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: user?.image != null
+                        ? NetworkImage(user!.image!)
+                        : const AssetImage('assets/images/defualt_user.png')
+                              as ImageProvider,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    user?.fullName ?? 'Loading...',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
-                    SizedBox(height: 12.0),
-                    Text(
-                      user != null ? user.fullName : 'loading...',
-                      style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  Text(
+                    '@${user?.username}',
+                    style: const TextStyle(
+                      color: AppColors.darkGrey,
+                      fontSize: 16,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             }),
-          ),
-          SizedBox(height: 16.0),
-          // Home
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text(MyText.home.tr),
-            onTap: () {
-              _navCtr.currentIndex = 0;
-              Navigator.of(context).pop();
-            },
-          ),
-          // Profile
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text(MyText.profile.tr),
-            onTap: () {
-              _navCtr.currentIndex = 2;
-              Navigator.of(context).pop();
-            },
-          ),
-          // History
-          ListTile(
-            leading: Icon(Icons.history),
-            title: Text(MyText.history.tr),
-            onTap: () {
-              _navCtr.currentIndex = 1;
-              Navigator.of(context).pop();
-            },
-          ),
-          // Change password
-          ListTile(
-            leading: Icon(Icons.password),
-            title: Text(MyText.changePassword.tr),
-            onTap: () {},
-          ),
-          // Contact Us
-          ListTile(
-            leading: Icon(Icons.contact_phone),
-            title: Text(MyText.contactUs.tr),
-            onTap: () {},
-          ),
-          // language
-          ListTile(
-            leading: Icon(Icons.language),
-            title: Text(MyText.language.tr),
-            onTap: () => Get.defaultDialog(
-              title: MyText.language.tr,
-              content: Column(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Divider(),
+            ),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
                 children: [
-                  // english
-                  ListTile(
-                    onTap: () async {
-                      _changeLanguage('en');
-                      // _closeDrawerAndDialog();
-                      _key.currentState?.closeEndDrawer();
-                      Get.offAllNamed(AppRoutes.navBar);
-                    },
-                    trailing: Radio<String>(
-                      value: 'en',
-                      groupValue: selectedLang,
-                      onChanged: (value) => _changeLanguage(value!),
-                    ),
-                    title: Text(MyText.english.tr),
-                  ),
-                  // khmer
-                  ListTile(
-                    onTap: () {
-                      _changeLanguage('kh');
-                      // _closeDrawerAndDialog();
-                      _key.currentState?.closeEndDrawer();
-                      Get.offAllNamed(AppRoutes.navBar);
-                    },
-                    title: Text(MyText.khmer.tr),
-                    trailing: Radio<String>(
-                      value: 'kh',
-                      groupValue: selectedLang,
-                      onChanged: (value) => _changeLanguage(value!),
-                    ),
-                  ),
-                  //
-                  // chinese
-                  ListTile(
-                    onTap: () {
-                      _changeLanguage('zh');
-                      // _closeDrawerAndDialog();
-                      _key.currentState?.closeEndDrawer();
-                      Get.offAllNamed(AppRoutes.navBar);
-                    },
-                    title: Text(MyText.chinese.tr),
-                    trailing: Radio<String>(
-                      value: 'zh',
-                      groupValue: selectedLang,
-                      onChanged: (value) => _changeLanguage(value!),
-                    ),
-                  ),
-                  //
+                  _drawerItem(Icons.home, MyText.home.tr, () {
+                    _navCtr.currentIndex = 0;
+                    Get.back();
+                  }),
+                  _drawerItem(Icons.person, MyText.profile.tr, () {
+                    _navCtr.currentIndex = 2;
+                    Get.back();
+                  }),
+                  _drawerItem(Icons.history, MyText.history.tr, () {
+                    _navCtr.currentIndex = 1;
+                    Get.back();
+                  }),
+                  _drawerItem(Icons.password, MyText.changePassword.tr, () {}),
+                  _drawerItem(Icons.contact_phone, MyText.contactUs.tr, () {}),
+                  _drawerItem(Icons.language, MyText.language.tr, () {
+                    _showLanguageDialog(context);
+                  }),
                 ],
               ),
             ),
-          ),
-          /////
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton.icon(
-              onPressed: () => _controller.logout(),
-              label: Text('Log Out'),
-              icon: Icon(Icons.logout),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: ElevatedButton.icon(
+                onPressed: () => _controller.logout(),
+                icon: const Icon(Icons.logout, size: 20),
+                label: const Text('Log Out'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  minimumSize: const Size.fromHeight(45),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
             ),
-          ),
+
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16, top: 8),
+              child: Column(
+                children: [
+                  Divider(color: Colors.grey.withOpacity(0.3)),
+                  const SizedBox(height: 4),
+                  Text(
+                    '© $year SBC SOLUTION. All rights reserved.',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: isDark ? Colors.grey[400] : Colors.grey[600],
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Version 1.0.0',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                      color: isDark ? Colors.grey[500] : Colors.grey[500],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  //  Language dialog
+  void _showLanguageDialog(BuildContext context) {
+    Get.defaultDialog(
+      title: MyText.language.tr,
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      content: Column(
+        children: [
+          _languageOption('en', MyText.english.tr),
+          _languageOption('kh', MyText.khmer.tr),
+          _languageOption('zh', MyText.chinese.tr),
         ],
       ),
+      radius: 12,
+      backgroundColor: Theme.of(context).brightness == Brightness.dark
+          ? Colors.grey[900]
+          : Colors.white,
+    );
+  }
+
+  // Drawer item builder
+  Widget _drawerItem(IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: AppColors.primaryColor),
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+      ),
+      onTap: onTap,
+    );
+  }
+
+  //  Language item
+  Widget _languageOption(String code, String name) {
+    return ListTile(
+      title: Text(name),
+      trailing: Radio<String>(
+        value: code,
+        groupValue: selectedLang,
+        onChanged: (value) {
+          _changeLanguage(value!);
+          Get.offAllNamed(AppRoutes.navBar);
+        },
+      ),
+      onTap: () {
+        _changeLanguage(code);
+        Get.offAllNamed(AppRoutes.navBar);
+      },
     );
   }
 }
