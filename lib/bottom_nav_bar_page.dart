@@ -60,8 +60,8 @@ class _BottomNavBarState extends State<BottomNavBarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: _onWillPop,
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) => _onWillPop,
       // onWillPop: () async {
       //   Get.snackbar('title', 'message');
       //   return false;

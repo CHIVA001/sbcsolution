@@ -22,23 +22,28 @@ class TimeLeaveController extends GetxController {
     super.onInit();
     final getEmpId = await _storageService.readData('emp_id');
     empId = getEmpId;
-    getTimeLeave();
+    await getTimeLeave();
     getLeaveType();
   }
 
   Future<void> getTimeLeave() async {
+    isLoading(true);
+    errorNetwork(false);
+    errorMessage(false);
     try {
-      isLoading(true);
-      errorMessage(false);
-      errorNetwork(false);
       final response = await _service.fetchTimeLeaveData(empId);
       timeLeaveList
         ..assignAll(response)
         ..sort((a, b) => b.startDate.compareTo(a.startDate));
     } on SocketException {
+      await Future.delayed(Duration(milliseconds: 500));
       errorNetwork(true);
+      timeLeaveList.clear();
+      return;
     } catch (e) {
       errorMessage(true);
+      timeLeaveList.clear();
+      return;
     } finally {
       isLoading(false);
     }
@@ -63,7 +68,7 @@ class TimeLeaveController extends GetxController {
     } on SocketException {
       Get.snackbar('Error', 'No internet connection.');
     } catch (e) {
-      Get.snackbar('Error ', e.toString());
+      // Get.snackbar('Error ', e.toString());
     } finally {
       isSubmitting(false);
     }
@@ -76,7 +81,7 @@ class TimeLeaveController extends GetxController {
       final response = await _service.getLeaveType('32');
       leaveType.assignAll(response);
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      // Get.snackbar('Error', e.toString());
       log('error get Leave Type: $e');
     } finally {
       isLoading(false);

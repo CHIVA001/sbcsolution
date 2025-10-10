@@ -83,7 +83,6 @@ flutter:
     - lib/core/localization/
     - assets/images/
     - assets/icons/
-    - assets/fonts/
     - assets/logos/
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -27,6 +27,49 @@ class SalesPage extends StatelessWidget {
           if (_saleCtr.isLoading.value) {
             return Center(child: CircularProgressIndicator());
           }
+          if (_saleCtr.errorNetwork.value) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.wifi_off, size: 64.0, color: AppColors.darkGrey),
+                  Text(
+                    'Network not Available',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
+                  ElevatedButton.icon(
+                    onPressed: () => _saleCtr.fetchSales(),
+                    label: Text('Try again'),
+                  ),
+                ],
+              ),
+            );
+          }
+          if (_saleCtr.isError.value) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline_outlined,
+                    size: 64.0,
+                    color: AppColors.dangerColor.withOpacity(0.5),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Error Service: 500',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
+                  ElevatedButton.icon(
+                    onPressed: () => _saleCtr.fetchSales(),
+                    label: Text('Try again'),
+                  ),
+                ],
+              ),
+            );
+          }
           if (sales.isEmpty) {
             return const Center(
               child: Text(

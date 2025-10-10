@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:cyspharama_app/features/dashboad_page/product_page/models/product_model.dart';
 import 'package:cyspharama_app/features/dashboad_page/product_page/services/product_service.dart';
 
-enum ViewState { idle, loading, error }
+enum ViewState { idle, loading, error, network }
 
 class ProductController extends GetxController {
   final ProductService service;
@@ -12,6 +14,7 @@ class ProductController extends GetxController {
   var state = ViewState.idle.obs;
   var errorMessage = ''.obs;
   var products = <ProductModel>[].obs;
+  var errorNetwork = false.obs;
 
   var page = 1;
   final int limit = 10;
@@ -47,6 +50,7 @@ class ProductController extends GetxController {
       } else {
         isLoadingMore.value = true;
       }
+
       isError(false);
 
       final resp = await service.fetchProducts(page: page, limit: limit);
@@ -58,6 +62,9 @@ class ProductController extends GetxController {
 
       state.value = ViewState.idle;
       errorMessage.value = '';
+    } on SocketException {
+      await Future.delayed(Duration(milliseconds: 500));
+      state.value = ViewState.network;
     } catch (e) {
       state.value = ViewState.error;
       errorMessage.value = e.toString();

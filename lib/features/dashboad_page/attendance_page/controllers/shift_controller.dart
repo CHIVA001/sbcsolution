@@ -270,11 +270,13 @@ class ShiftController extends GetxController {
             backgroundColor: AppColors.successColor,
           );
         } else {
-          Get.snackbar("Error", response["message"] ?? "Check-out failed");
+          // Get.snackbar("Error", response["message"] ?? "Check-out failed");
+          log('Error shiftCtr: ${response["message"] ?? "Check-out failed"} ');
         }
       }
     } catch (e) {
-      Get.snackbar("Error", "Unexpected error: $e");
+      // Get.snackbar("Error", "Unexpected error: $e");
+      log('Error shiftCtr: Unexpected error: $e');
     } finally {
       isLoading(false);
     }
@@ -297,7 +299,8 @@ class ShiftController extends GetxController {
         await StorageService().deleteData('shift_id');
       }
     } catch (e) {
-      Get.snackbar("Error", "Failed to load shift: $e");
+      // Get.snackbar("Error", "Failed to load shift: $e");
+      log('Error shiftCtr: Failed to load shift: $e');
     }
   }
 }

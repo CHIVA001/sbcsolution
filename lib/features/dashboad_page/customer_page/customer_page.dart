@@ -94,8 +94,7 @@ class CustomerPage extends StatelessWidget {
           ),
           Expanded(
             child: Obx(() {
-              if (_controller.state.value == ViewState.loading &&
-                  _controller.customers.isEmpty) {
+              if (_controller.state.value == ViewState.loading) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -103,22 +102,64 @@ class CustomerPage extends StatelessWidget {
                   ),
                 );
               }
-
+              if (_controller.state.value == ViewState.network) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.wifi_off,
+                        size: 64.0,
+                        color: AppColors.darkGrey,
+                      ),
+                      Text(
+                        'Network not Available',
+                        style: textMeduim().copyWith(color: AppColors.darkGrey),
+                      ),
+                      SizedBox(height: 8.0),
+                      ElevatedButton.icon(
+                        onPressed: () =>
+                            _controller.fetchCustomers(isRefresh: true),
+                        label: Text('Try again'),
+                      ),
+                    ],
+                  ),
+                );
+              }
               if (_controller.isError.value) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.error,
-                        size: 32,
+                        Icons.error_outline_outlined,
+                        size: 64.0,
                         color: AppColors.dangerColor.withOpacity(0.5),
                       ),
-                      Text('Error something!', style: textdefualt()),
-                      SizedBox(height: 24.0),
+                      SizedBox(height: 8.0),
+                      Text(
+                        'Error Service: 500',
+                        style: textMeduim().copyWith(color: AppColors.darkGrey),
+                      ),
+                      SizedBox(height: 8.0),
                       ElevatedButton.icon(
                         onPressed: () => _controller.fetchCustomers(),
-                        label: Text('Try again', style: textMeduim()),
+                        label: Text('Try again'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              if (_controller.customers.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.person, size: 64.0, color: AppColors.darkGrey),
+                      SizedBox(height: 8.0),
+                      Text(
+                        'Customer Not found!',
+                        style: textMeduim().copyWith(color: AppColors.darkGrey),
                       ),
                     ],
                   ),

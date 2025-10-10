@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../customer_model.dart';
 import '../service/customer_service.dart';
 
-enum ViewState { idle, loading, error }
+enum ViewState { idle, loading, error, network }
 
 class CustomerController extends GetxController {
   final service = CustomerService();
@@ -54,9 +56,13 @@ class CustomerController extends GetxController {
 
   Future<void> fetchCustomers({bool isRefresh = false}) async {
     if (isLoadingMore.value || (!hasMore.value && !isRefresh)) return;
+    if (customers.isEmpty ||
+        state.value == ViewState.error ||
+        state.value == ViewState.network) {
+      state(ViewState.loading);
+    }
     try {
       if (isRefresh) {
-        state(ViewState.loading);
         _start = 0;
         hasMore(true);
         customers.clear();
@@ -65,13 +71,7 @@ class CustomerController extends GetxController {
       }
       isError(false);
 
-      final result = await service.fetchCustomers(
-        // Call the updated service method
-        start: _start,
-        limit: _limit,
-      );
-
-      // *** ADDED: Update the server total count ***
+      final result = await service.fetchCustomers(start: _start, limit: _limit);
       serverTotalCustomers(result.totalCount);
 
       if (result.customers.isEmpty || result.customers.length < _limit) {
@@ -81,6 +81,9 @@ class CustomerController extends GetxController {
       customers.addAll(result.customers);
       _start = customers.length;
       state(ViewState.idle);
+    } on SocketException {
+      await Future.delayed(Duration(milliseconds: 500));
+      state(ViewState.network);
     } catch (e) {
       state(ViewState.error);
       errorMessage(e.toString());

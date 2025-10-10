@@ -47,6 +47,7 @@ class _AttendancePageState extends State<AttendancePage> {
     return Scaffold(
       appBar: buildAppBar(
         onPressed: () => Get.offAllNamed(AppRoutes.navBar),
+        // onPressed: () => Get.back(),
         title: MyText.attendance.tr,
         action: Padding(
           padding: const EdgeInsets.only(right: 8.0),
@@ -63,8 +64,45 @@ class _AttendancePageState extends State<AttendancePage> {
       body: Obx(() {
         if (_controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
-        }
-        if (_controller.checkInOutData.isEmpty) {
+        } else if (_controller.errorNetwork.value) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.wifi_off, size: 64.0, color: AppColors.darkGrey),
+                Text(
+                  'Network not Available',
+                  style: textMeduim().copyWith(color: AppColors.darkGrey),
+                ),
+                SizedBox(height: 8.0),
+                ElevatedButton.icon(
+                  onPressed: () => _controller.getCheckInOut(),
+                  label: Text('Try again'),
+                ),
+              ],
+            ),
+          );
+        } else if (_controller.isError.value) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.error,
+                  size: 64.0,
+                  color: AppColors.dangerColor.withOpacity(0.5),
+                ),
+                SizedBox(height: 8.0),
+                Text('Error Service: 500', style: textdefualt()),
+                SizedBox(height: 8.0),
+                ElevatedButton.icon(
+                  onPressed: () => _controller.getCheckInOut(),
+                  label: Text('Try again'),
+                ),
+              ],
+            ),
+          );
+        } else if (_controller.checkInOutData.isEmpty) {
           return Center(
             child: Text(
               'Not Attendance',
@@ -72,27 +110,6 @@ class _AttendancePageState extends State<AttendancePage> {
                 color: AppColors.darkGrey,
                 fontSize: 20.0,
               ),
-            ),
-          );
-        }
-        if (_controller.isError.value) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error,
-                  size: 32.0,
-                  color: AppColors.dangerColor.withOpacity(0.5),
-                ),
-                SizedBox(height: 8.0),
-                Text('Error something!', style: textdefualt()),
-                SizedBox(height: 24.0),
-                ElevatedButton.icon(
-                  onPressed: () => _controller.getCheckInOut(),
-                  label: Text('Try again'),
-                ),
-              ],
             ),
           );
         }

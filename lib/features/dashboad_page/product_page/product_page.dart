@@ -59,24 +59,45 @@ class ProductPage extends StatelessWidget {
               ),
             );
           }
+          if (controller.state.value == ViewState.network) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.wifi_off, size: 64.0, color: AppColors.darkGrey),
+                  Text(
+                    'Network not Available',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
+                  ElevatedButton.icon(
+                    onPressed: () => controller.loadInitial(),
+                    label: Text('Try again'),
+                  ),
+                ],
+              ),
+            );
+          }
 
           if (controller.state.value == ViewState.error) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Error Something!',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: AppColors.dangerColor),
-                    ),
+                  Icon(
+                    Icons.error_outline_outlined,
+                    size: 64.0,
+                    color: AppColors.dangerColor.withOpacity(0.5),
                   ),
-                  SizedBox(height: 24.0),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Error Service: 500',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
                   ElevatedButton.icon(
                     onPressed: () => controller.loadInitial(),
-                    label: Text('Try again', style: textMeduim()),
+                    label: Text('Try again'),
                   ),
                 ],
               ),
@@ -234,7 +255,7 @@ class ProductPage extends StatelessWidget {
                     ),
                   ),
                 );
-              }, 
+              },
             ),
           );
         }),

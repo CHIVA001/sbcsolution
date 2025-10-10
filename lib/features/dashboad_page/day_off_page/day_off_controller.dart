@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cyspharama_app/services/storage_service.dart';
 import 'package:get/get.dart';
 import 'day_off_service.dart';
@@ -7,7 +9,7 @@ class DayOffController extends GetxController {
   final DayOffService _service = DayOffService();
 
   var isLoading = false.obs;
-
+  var errorNetwork = false.obs;
   var message = ''.obs;
 
   var dayOffList = <DayOffData>[].obs;
@@ -29,6 +31,8 @@ class DayOffController extends GetxController {
     try {
       isLoading.value = true;
       hasError.value = false;
+      errorNetwork(false);
+
       final response = await _service.getDayOffList(empId);
 
       if (response.status) {
@@ -38,6 +42,9 @@ class DayOffController extends GetxController {
         dayOffList.clear();
         message.value = response.message ?? "No data found";
       }
+    }on SocketException {
+      await Future.delayed(Duration(milliseconds: 500));
+      errorNetwork(true);
     } catch (e) {
       hasError.value = true;
       message.value = e.toString();

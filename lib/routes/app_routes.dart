@@ -51,123 +51,78 @@ class AppRoutes {
     GetPage(
       name: attendance,
       page: () => AttendancePage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: timeLeave,
       page: () => TimeLeavePage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: dayOff,
       page: () => DayOffPage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: report,
       page: () => ReportPage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: product,
       page: () => ProductPage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: countStock,
       page: () => CountStockPage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: sale,
       page: () => SalesPage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: delivery,
       page: () => DeliveryPage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: customer,
       page: () => CustomerPage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: scanDispatch,
       page: () => ScanDispatchPage(),
-      // transition: Transition.rightToLeft,
-      customTransition: MyCustomTransition(),
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: splash,
       page: () => SplashScreenPage(),
-      // transition: Transition.rightToLeft,
+      transition: Transition.rightToLeft,
     ),
     GetPage(
       name: addTimeLeave,
       page: () => AddTimeLeave(),
-      // transition: Transition.downToUp,
-      transitionDuration: Duration(milliseconds: 400),
-      customTransition: MyCustomTransition1(),
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: addDayoff,
       page: () => AddDayOff(),
-      // transition: Transition.downToUp,
-      transitionDuration: Duration(milliseconds: 400),
-      customTransition: MyCustomTransition1(),
+      customTransition: MyCustomTransition(),
     ),
     GetPage(
       name: notification,
       page: () => NotificationPage(),
+      // transition: Transition.rightToLeft,
       customTransition: MyCustomTransition(),
     ),
-
-    // GetPage(
-    //   name: reportDetail,
-    //   page: () => ReportDetail(),
-    //   transition: Transition.downToUp,
-    // ),
-    // GetPage(
-    //   name: dayOffDetail,
-    //   page: () => DayOffDetail(),
-    //   transition: Transition.rightToLeft,
-    // ),
-    //===========================================================
   ];
 }
 
 class MyCustomTransition extends CustomTransition {
-  @override
-  Widget buildTransition(
-    BuildContext context,
-    Curve? curve,
-    Alignment? alignment,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(0.2, 0.0),
-        end: Offset.zero,
-      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic)),
-      child: FadeTransition(opacity: animation, child: child),
-    );
-  }
-}
-
-class MyCustomTransition1 extends CustomTransition {
   @override
   Widget buildTransition(
     BuildContext context,

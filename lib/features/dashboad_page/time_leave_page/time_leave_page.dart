@@ -40,6 +40,25 @@ class TimeLeavePage extends StatelessWidget {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
+          if (controller.errorNetwork.value) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.wifi_off, size: 64.0, color: AppColors.darkGrey),
+                  Text(
+                    'Network not Available',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
+                  ElevatedButton.icon(
+                    onPressed: () => controller.getTimeLeave(),
+                    label: Text('Try again'),
+                  ),
+                ],
+              ),
+            );
+          }
           if (controller.errorMessage.value) {
             return Center(
               child: Column(
@@ -47,45 +66,15 @@ class TimeLeavePage extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.error_outline_outlined,
-                    size: 32.0,
-                    color: AppColors.dangerColor.withOpacity(0.5),
-                  ),
-                  Text(''),
-                  ElevatedButton.icon(
-                    onPressed: () => controller.getTimeLeave(),
-                    label: Text('Try again'),
-                  ),
-                ],
-              ),
-            );
-          }
-          if (controller.errorNetwork.value) {
-            return Center(
-              child: Column(
-                children: [
-                  Icon(Icons.wifi_off, size: 32.0, color: AppColors.darkGrey),
-                  Text('Network Available'),
-                  ElevatedButton.icon(
-                    onPressed: () => controller.getTimeLeave(),
-                    label: Text('Try again'),
-                  ),
-                ],
-              ),
-            );
-          }
-          if (controller.errorMessage.value) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error,
-                    size: 32.0,
+                    size: 64.0,
                     color: AppColors.dangerColor.withOpacity(0.5),
                   ),
                   SizedBox(height: 8.0),
-                  Text('Error something!', style: textdefualt()),
-                  SizedBox(height: 24.0),
+                  Text(
+                    'Error Service: 500',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
                   ElevatedButton.icon(
                     onPressed: () => controller.getTimeLeave(),
                     label: Text('Try again'),
@@ -94,6 +83,7 @@ class TimeLeavePage extends StatelessWidget {
               ),
             );
           }
+
           if (controller.timeLeaveList.isEmpty) {
             return Center(
               child: Text(
@@ -101,33 +91,32 @@ class TimeLeavePage extends StatelessWidget {
                 style: theme.textTheme.titleMedium,
               ),
             );
-          } else {
-            return AnimationLimiter(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                padding: const EdgeInsets.all(16.0),
-                itemCount: controller.timeLeaveList.length,
-                itemBuilder: (context, index) {
-                  final leave = controller.timeLeaveList[index];
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    child: SlideAnimation(
-                      duration: Duration(milliseconds: 500),
-                      verticalOffset: 100,
-                      child: FadeInAnimation(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: _buildLeaveCard(context, leave, theme),
-                        ),
+          }
+          return AnimationLimiter(
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              padding: const EdgeInsets.all(16.0),
+              itemCount: controller.timeLeaveList.length,
+              itemBuilder: (context, index) {
+                final leave = controller.timeLeaveList[index];
+                return AnimationConfiguration.staggeredList(
+                  position: index,
+                  child: SlideAnimation(
+                    duration: Duration(milliseconds: 500),
+                    verticalOffset: 100,
+                    child: FadeInAnimation(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: _buildLeaveCard(context, leave, theme),
                       ),
                     ),
-                  );
-                },
-              ),
-            );
-          }
+                  ),
+                );
+              },
+            ),
+          );
         }),
       ),
     );

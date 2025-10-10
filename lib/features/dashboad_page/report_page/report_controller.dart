@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cyspharama_app/features/dashboad_page/report_page/report_model.dart';
 import 'package:cyspharama_app/features/dashboad_page/report_page/report_service.dart';
 import 'package:cyspharama_app/services/storage_service.dart';
@@ -25,7 +27,7 @@ class ReportController extends GetxController {
   Future<void> getReport() async {
     isLoading.value = true;
     errorMessage.value = '';
-    errorNetwork.value = false;
+    errorNetwork(false);
     isError(false);
 
     try {
@@ -33,10 +35,12 @@ class ReportController extends GetxController {
       if (response.status) {
         reportSalary.assignAll(response.data);
       }
+    } on SocketException {
+      await Future.delayed(Duration(milliseconds: 500));
+      errorNetwork(true);
     } catch (e) {
-      errorMessage.value = e.toString();
-      errorNetwork.value = true;
       isError(true);
+      errorMessage.value = e.toString();
     } finally {
       isLoading.value = false;
     }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:cyspharama_app/core/constants/app_url.dart';
 import 'package:cyspharama_app/features/dashboad_page/product_page/models/product_model.dart';
 import 'package:http/http.dart' as http;
@@ -12,17 +13,23 @@ class ProductService {
   }) async {
     final url = '${AppUrl.getProduct}?page=$page&limit=$limit';
 
-    final response = await http.get(Uri.parse(url), headers: headers);
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
 
-    if (response.statusCode != 200) {
-      throw Exception("Failed to load products: ${response.statusCode}");
+      if (response.statusCode != 200) {
+        throw Exception("Failed to load products: ${response.statusCode}");
+      }
+
+      final decoded = json.decode(response.body);
+
+      if (decoded is! Map<String, dynamic>) {
+        throw Exception('Invalid response format');
+      }
+      return ProductResponse.fromJson(decoded);
+    } on SocketException {
+      throw SocketException('No Internet connection');
+    } catch (e) {
+      throw Exception('error product: $e');
     }
-
-    final decoded = json.decode(response.body);
-
-    if (decoded is! Map<String, dynamic>) {
-      throw Exception('Invalid response format');
-    }
-    return ProductResponse.fromJson(decoded);
   }
 }

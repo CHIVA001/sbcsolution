@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cyspharama_app/data/models/user_model.dart';
 import 'package:cyspharama_app/services/storage_service.dart';
@@ -13,9 +14,10 @@ class AttendanceController extends GetxController {
   final AttendanceService _attendanceService = AttendanceService();
   final StorageService _storageService = StorageService();
   final Rx<UserModel?> userProfile = Rx<UserModel?>(null);
-  final isLoading = true.obs;
-  final isError = false.obs;
+  var isLoading = true.obs;
   var errorMessage = ''.obs;
+  var errorNetwork = false.obs;
+  var isError = false.obs;
   final isCheckedIn = false.obs;
   var checkInOutData = <CheckInOutModel>[].obs;
   final shiftCtr = Get.put(ShiftController());
@@ -32,17 +34,21 @@ class AttendanceController extends GetxController {
     await _storageService.readData('emp_id').then((empValue) {
       _empId = empValue;
     });
-    super.onInit();
     getCheckInOut();
+    super.onInit();
   }
 
   Future<void> getCheckInOut() async {
     _empId = await _storageService.readData('emp_id');
     try {
       isLoading(true);
+      errorNetwork(false);
       isError(false);
       final response = await _attendanceService.getCheckInOutList(_empId!);
       checkInOutData.assignAll(response);
+    } on SocketException {
+      await Future.delayed(Duration(milliseconds: 500));
+      errorNetwork(true);
     } catch (e) {
       isError(true);
     } finally {
@@ -53,7 +59,10 @@ class AttendanceController extends GetxController {
   Future<String> getAddressFromLatLng(String? lat, String? lng) async {
     if (lat == null || lng == null) return "Not available";
     try {
-      List<Placemark> placemarks = await placemarkFromCoordinates(double.parse(lat), double.parse(lng));
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        double.parse(lat),
+        double.parse(lng),
+      );
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
         return "${place.street}, ${place.locality}, ${place.subAdministrativeArea}, ${place.country}";
@@ -74,13 +83,9 @@ class AttendanceController extends GetxController {
     log(url.toString());
 
     if (await canLaunchUrl(url)) {
-      await launchUrl(
-        url,
-        mode:
-            LaunchMode.externalApplication, // <-- open in Google Maps / browser
-      );
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
-      print('Could not open the map.');
+      log('Could not open the map.');
     }
   }
 }
