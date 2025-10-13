@@ -9,6 +9,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import 'attendance_detail.dart';
 import 'controllers/attendance_controller.dart';
 
 class AttendancePage extends StatefulWidget {
@@ -183,7 +184,7 @@ class _AttendancePageState extends State<AttendancePage> {
                     verticalOffset: 100,
                     child: FadeInAnimation(
                       child: GestureDetector(
-                        onLongPress: () async {
+                        onTap: () async {
                           final checkinLat = item.checkinLocation?.latitude;
                           final checkinLng = item.checkinLocation?.longitude;
                           final checkoutLat = item.checkoutLocation?.latitude;
@@ -196,7 +197,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                   checkinLat,
                                   checkinLng,
                                 )
-                              : "You not Check-In";
+                              : "No Check-In record found.";
 
                           final checkoutAddress =
                               (checkoutLat != null && checkoutLng != null)
@@ -204,44 +205,24 @@ class _AttendancePageState extends State<AttendancePage> {
                                   checkoutLat,
                                   checkoutLng,
                                 )
-                              : "You not Check-Out";
+                              : "No Check-Out record found.";
 
                           final totalMinute = item.shiftTotalTime != null
-                              ? '${item.shiftTotalTime} minute'
-                              : 'You not Check-out';
+                              ? '${item.shiftTotalTime} minutes'
+                              : 'No Check-Out record found.';
 
-                          Get.defaultDialog(
-                            title: 'Attendance Detail',
-                            content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Divider(),
-                                Text('Total Time', style: textMeduim()),
-                                Text(totalMinute),
-                                Divider(),
-                                Text('Check In At', style: textMeduim()),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: Text(
-                                    checkinAddress,
-                                    style: textMeduim(),
-                                  ),
-                                ),
-                                Divider(),
-                                Text('Check Out At', style: textMeduim()),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: Text(
-                                    checkoutAddress,
-                                    style: textMeduim(),
-                                  ),
-                                ),
-                              ],
+                          Get.to(
+                            () => AttendanceDetail(
+                              fullName: item.fullName,
+                              checkInTime: formattedCheckInTime,
+                              checkOutTime: formattedCheckOutTime,
+                              checkInDate: formattedCheckInDate,
+                              checkOutDate: formattedCheckOutDate,
+                              checkInAddress: checkinAddress,
+                              checkOutAddress: checkoutAddress,
+                              totalMinute: totalMinute,
                             ),
+                            transition: Transition.rightToLeftWithFade,
                           );
                         },
 

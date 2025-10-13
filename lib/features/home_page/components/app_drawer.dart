@@ -1,5 +1,6 @@
 import 'package:cyspharama_app/core/localization/my_text.dart';
 import 'package:cyspharama_app/core/themes/app_colors.dart';
+import 'package:cyspharama_app/core/themes/app_style.dart';
 import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
 import 'package:cyspharama_app/features/auth/controllers/nav_bar_controller.dart';
 import 'package:cyspharama_app/routes/app_routes.dart';
@@ -111,11 +112,17 @@ class _AppDrawerState extends State<AppDrawer> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: ElevatedButton.icon(
                 onPressed: () => _controller.logout(),
-                icon: const Icon(Icons.logout, size: 20),
-                label: const Text('Log Out'),
+                icon: Icon(Icons.logout, size: 20, fontWeight: FontWeight.w500),
+                label: Text(
+                  'Log Out',
+                  style: textdefualt().copyWith(
+                    color: AppColors.textLight,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  minimumSize: const Size.fromHeight(45),
+                  backgroundColor: Colors.red,
+                  minimumSize: Size.fromHeight(45),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

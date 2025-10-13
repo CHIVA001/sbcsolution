@@ -29,27 +29,6 @@ class HistoryPage extends StatelessWidget {
             ),
           ],
         ),
-        // child: Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     ElevatedButton(
-        //       onPressed: () {
-        //         //
-        //         // HandleMessage.error("msg");
-        //         // HandleMessage.info("msg");
-        //         // HandleMessage.noNetwork();
-        //         // HandleMessage.warning("msg");
-        //         // MessageDialog.networkError();
-        //         // MessageDialog.error('msg');
-        //         // MessageDialog.success('msg');
-
-        //         // AttendanceDialog.confirmCheckIn(onConfirm: () {});
-        //         AttendanceDialog.confirmCheckOut(onConfirm: () {});
-        //       },
-        //       child: Text('click'),
-        //     ),
-        //   ],
-        // ),
       ),
     );
   }

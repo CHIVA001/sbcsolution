@@ -4,7 +4,6 @@ import 'package:cyspharama_app/features/auth/controllers/nav_bar_controller.dart
 import 'package:cyspharama_app/features/history_page/history_page.dart';
 import 'package:cyspharama_app/features/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'features/home_page/home_page.dart';
