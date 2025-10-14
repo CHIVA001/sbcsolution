@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:cyspharama_app/core/constants/app_url.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/models/shift_model.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../../core/constants/app_url.dart';
+import '../models/shift_model.dart';
 
 class ShiftService {
   Future<ShiftModel?> getShift({required String userId, required String empId,}) async {

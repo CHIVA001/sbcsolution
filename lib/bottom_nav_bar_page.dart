@@ -1,12 +1,12 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/features/auth/controllers/nav_bar_controller.dart';
-import 'package:cyspharama_app/features/history_page/history_page.dart';
-import 'package:cyspharama_app/features/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'core/localization/my_text.dart';
+import 'core/themes/app_colors.dart';
+import 'features/auth/controllers/nav_bar_controller.dart';
+import 'features/history_page/history_page.dart';
 import 'features/home_page/home_page.dart';
+import 'features/profile_page/profile_page.dart';
 
 class BottomNavBarPage extends StatefulWidget {
   const BottomNavBarPage({super.key});

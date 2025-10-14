@@ -1,8 +1,10 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../widgets/build_app_bar.dart';
 
 class AttendanceDetail extends StatelessWidget {
   final String fullName;

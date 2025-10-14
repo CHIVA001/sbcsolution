@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:cyspharama_app/core/constants/app_url.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/models/attenace_model.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../../core/constants/app_url.dart';
+import '../models/attenace_model.dart';
 
 class AttendanceService {
   Future<bool> isChekinOut(

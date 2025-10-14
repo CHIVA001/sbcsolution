@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'package:cyspharama_app/core/constants/app_url.dart';
-import 'package:cyspharama_app/features/dashboad_page/time_leave_page/time_leave_model.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../core/constants/app_url.dart';
+import 'time_leave_model.dart';
 
 class TimeLeaveService {
   Future<List<TimeLeaveModel>> fetchTimeLeaveData(String? empId) async {

@@ -1,14 +1,16 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/dashboad_page/day_off_page/day_off_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/day_off_page/day_off_detail.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../core/localization/my_text.dart';
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../routes/app_routes.dart';
+import '../../../widgets/build_app_bar.dart';
+import 'day_off_controller.dart';
+import 'day_off_detail.dart';
 
 class DayOffPage extends StatelessWidget {
   DayOffPage({super.key});

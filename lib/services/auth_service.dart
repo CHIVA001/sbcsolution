@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'package:cyspharama_app/core/constants/app_url.dart';
-import 'package:cyspharama_app/data/models/user_model.dart';
 import 'package:http/http.dart' as http;
+
+import '../core/constants/app_url.dart';
+import '../data/models/user_model.dart';
 
 class AuthService {
   Future<UserModel> login(String username, String password) async {

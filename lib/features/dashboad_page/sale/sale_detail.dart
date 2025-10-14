@@ -1,5 +1,5 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
+import '../../../core/themes/app_colors.dart';
 import 'model/sale_model.dart';
 
 class SaleDetailPage extends StatelessWidget {

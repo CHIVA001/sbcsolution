@@ -1,9 +1,9 @@
 import 'dart:io';
-
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_model.dart';
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_service.dart';
-import 'package:cyspharama_app/services/storage_service.dart';
 import 'package:get/get.dart';
+
+import '../../../services/storage_service.dart';
+import 'report_model.dart';
+import 'report_service.dart';
 
 class ReportController extends GetxController {
   final _service = ReportService();

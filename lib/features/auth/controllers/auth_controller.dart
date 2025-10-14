@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
-import 'package:cyspharama_app/bottom_nav_bar_page.dart';
-import 'package:cyspharama_app/core/handle/handle_error.dart';
-import 'package:cyspharama_app/data/models/user_model.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
-import 'package:cyspharama_app/services/auth_service.dart';
-import 'package:cyspharama_app/services/storage_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+
+import '../../../bottom_nav_bar_page.dart';
+import '../../../core/handle/handle_error.dart';
+import '../../../data/models/user_model.dart';
+import '../../../routes/app_routes.dart';
+import '../../../services/auth_service.dart';
+import '../../../services/storage_service.dart';
 
 class AuthController extends GetxController with WidgetsBindingObserver {
   final _service = AuthService();
@@ -57,7 +58,7 @@ class AuthController extends GetxController with WidgetsBindingObserver {
 
   @override
   void onClose() {
-    _refreshTimer?.cancel();
+    // _refreshTimer?.cancel();
     super.onClose();
   }
 
@@ -148,6 +149,7 @@ class AuthController extends GetxController with WidgetsBindingObserver {
 
   Future<void> logout() async {
     await _storage.deleteData('user_id');
+    await _storage.deleteData('emp_id');
     _user(null);
     _refreshTimer?.cancel();
     Get.offAllNamed(AppRoutes.login);

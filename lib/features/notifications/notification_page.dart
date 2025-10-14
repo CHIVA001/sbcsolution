@@ -1,7 +1,8 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/themes/app_colors.dart';
+import '../../core/themes/app_style.dart';
+import '../../widgets/build_app_bar.dart';
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});

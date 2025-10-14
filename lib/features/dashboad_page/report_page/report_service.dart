@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:cyspharama_app/core/constants/app_url.dart';
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_model.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../core/constants/app_url.dart';
+import 'report_model.dart';
 
 class ReportService {
   Future<SalaryResponse> getReport(String empId) async {

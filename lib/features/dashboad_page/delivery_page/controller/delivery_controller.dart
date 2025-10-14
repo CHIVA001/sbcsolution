@@ -1,11 +1,9 @@
 import 'dart:developer';
-
-import 'package:cyspharama_app/bottom_nav_bar_page.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../bottom_nav_bar_page.dart';
+import '../../../../core/themes/app_colors.dart';
+import '../../../../core/themes/app_style.dart';
 import '../model/delivery_model.dart';
 import '../service/delivery_service.dart';
 

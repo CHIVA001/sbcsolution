@@ -1,9 +1,8 @@
 import 'dart:io';
-
-import 'package:cyspharama_app/features/dashboad_page/sale/service/sale_service.dart';
 import 'package:get/get.dart';
 
 import '../model/sale_model.dart';
+import '../service/sale_service.dart';
 
 class SaleController extends GetxController {
   final service = SaleService();

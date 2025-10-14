@@ -1,16 +1,17 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/models/attenace_model.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/localization/my_text.dart';
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../routes/app_routes.dart';
+import '../../../widgets/build_app_bar.dart';
 import 'attendance_detail.dart';
 import 'controllers/attendance_controller.dart';
+import 'models/attenace_model.dart';
 
 class AttendancePage extends StatefulWidget {
   const AttendancePage({super.key});

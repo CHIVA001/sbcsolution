@@ -1,8 +1,8 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import '../../../core/themes/app_colors.dart';
 import 'controller/delivery_controller.dart';
 
 class ScanDispatchPage extends StatefulWidget {

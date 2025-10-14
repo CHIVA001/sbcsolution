@@ -1,10 +1,11 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import '../../../core/localization/my_text.dart';
 import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../widgets/build_app_bar.dart';
 import 'controller/customer_controller.dart';
 import 'customer_detail.dart';
 

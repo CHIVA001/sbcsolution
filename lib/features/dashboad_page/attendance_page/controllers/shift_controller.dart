@@ -152,16 +152,18 @@
 // }
 
 import 'dart:developer';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/models/shift_model.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/services/attenance_service.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/services/shift_service.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
-import 'package:cyspharama_app/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+
+import '../../../../core/themes/app_colors.dart';
+import '../../../../core/themes/app_style.dart';
+import '../../../../routes/app_routes.dart';
+import '../../../../services/storage_service.dart';
+import '../../../auth/controllers/auth_controller.dart';
+import '../models/shift_model.dart';
+import '../services/attenance_service.dart';
+import '../services/shift_service.dart';
 
 class ShiftController extends GetxController {
   final _companyCtr = Get.find<AuthController>();
@@ -183,7 +185,7 @@ class ShiftController extends GetxController {
   }
 
   Future<void> _initData() async {
-    userId = await StorageService().readData('user_id') ?? '';
+    userId = await StorageService().getUserId();
     empId = await StorageService().readData('emp_id') ?? '';
     shiftId = await StorageService().readData('shift_id') ?? '';
     await _companyCtr.getCompanies();
@@ -195,7 +197,7 @@ class ShiftController extends GetxController {
     }
   }
 
-  /// ✅ Unified Attendance Handler
+  ///  Unified Attendance Handler
   Future<void> handleAttendance({
     required String latitute,
     required String longitute,
@@ -206,7 +208,7 @@ class ShiftController extends GetxController {
 
     try {
       if (shift.value == null || shiftId.isEmpty) {
-        /// 🟢 CHECK-IN
+        ///  CHECK-IN
         final response = await attendanceService.checkIn(
           userId,
           empId,
@@ -221,33 +223,33 @@ class ShiftController extends GetxController {
           await StorageService().writeData('shift_id', shiftId);
 
           Get.offAndToNamed(AppRoutes.attendance);
-          Get.snackbar(
-            "Success",
-            response["message"] ?? "Checked in successfully!",
-            snackPosition: SnackPosition.BOTTOM,
+          Fluttertoast.showToast(
+            msg: "You're checked in.",
+            timeInSecForIosWeb: 3,
             backgroundColor: AppColors.successColor,
           );
         } else {
-          Fluttertoast.showToast(msg: response["message"]);
           Get.snackbar("Error", response["message"] ?? "Check-in failed");
-          Get.defaultDialog(
-            title: "Error",
-            content: Column(
-              children: [
-                Text(response["message"]),
-                //
-              ],
-            ),
-            cancel: Column(
-              children: [
-                Divider(),
-                TextButton(onPressed: () {}, child: Text('OK')),
+          Get.dialog(
+            AlertDialog(
+              title: const Text('Error'),
+              content: Text(
+                response["message"] + '\nPlease try again.' ??
+                    "Check-in failed",
+                style: textMeduim(),
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Get.back(),
+                  child: const Text('OK'),
+                ),
               ],
             ),
           );
         }
       } else {
-        /// 🔴 CHECK-OUT
+        ///  CHECK-OUT
         final response = await attendanceService.checkOut(
           userId,
           empId,
@@ -263,10 +265,9 @@ class ShiftController extends GetxController {
           await StorageService().deleteData('shift_id');
 
           Get.offAndToNamed(AppRoutes.attendance);
-          Get.snackbar(
-            "Success",
-            "Checked out successfully!",
-            snackPosition: SnackPosition.BOTTOM,
+          Fluttertoast.showToast(
+            msg: "You're checked Out.",
+            timeInSecForIosWeb: 3,
             backgroundColor: AppColors.successColor,
           );
         } else {

@@ -1,5 +1,6 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
 import 'package:flutter/widgets.dart';
+
+import 'app_colors.dart';
 
 TextStyle textBold() => TextStyle(
   fontSize: 16.0,

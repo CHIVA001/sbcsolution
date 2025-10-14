@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_model.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
-import 'package:cyspharama_app/widgets/build_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../widgets/build_app_bar.dart';
+import '../../auth/controllers/auth_controller.dart';
+import 'report_model.dart';
 
 class ReportDetail extends StatelessWidget {
   ReportDetail({super.key, required this.data});

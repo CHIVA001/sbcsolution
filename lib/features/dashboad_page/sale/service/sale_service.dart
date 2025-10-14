@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:cyspharama_app/core/constants/app_url.dart';
 import 'package:http/http.dart' as http;
+import '../../../../core/constants/app_url.dart';
 import '../model/sale_model.dart';
 
 class SaleService {

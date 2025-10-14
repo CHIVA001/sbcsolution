@@ -1,13 +1,13 @@
 import 'dart:developer';
-
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/controllers/attendance_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/controllers/shift_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:get/get.dart';
+
+import '../../../core/themes/app_style.dart';
+import '../../auth/controllers/auth_controller.dart';
+import '../../dashboad_page/attendance_page/controllers/attendance_controller.dart';
+import '../../dashboad_page/attendance_page/controllers/shift_controller.dart';
 
 class ScanQrPage extends StatefulWidget {
   const ScanQrPage({super.key});
@@ -19,7 +19,12 @@ class ScanQrPage extends StatefulWidget {
 class _ScanQrPageState extends State<ScanQrPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  final MobileScannerController _scannerController = MobileScannerController();
+  final MobileScannerController _scannerController = MobileScannerController(
+    torchEnabled: false,
+    formats: [BarcodeFormat.qrCode],
+    detectionSpeed: DetectionSpeed.unrestricted,
+    detectionTimeoutMs: 250,
+  );
 
   final _companyCtr = Get.find<AuthController>();
   final attCtr = Get.find<AttendanceController>();
@@ -105,6 +110,20 @@ class _ScanQrPageState extends State<ScanQrPage>
         content: Column(
           children: [Text('Location permission permanently denied')],
         ),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                "Ok",
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+        ],
       );
       return null;
     }
@@ -115,6 +134,20 @@ class _ScanQrPageState extends State<ScanQrPage>
         content: Column(
           children: [Text('Location permission permanently denied')],
         ),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                "Ok",
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ),
+        ],
       );
       return null;
     }
@@ -173,11 +206,11 @@ class _ScanQrPageState extends State<ScanQrPage>
             //             // First time → CHECK-IN
             //             final pos = await _determinePosition();
             //             if (pos != null) {
-            //               await _shifCtr.handleQrScanner(
+            //               await _shifCtr.handleAttendance(
             //                 // latitute: pos.latitude.toString(),
             //                 // longitute: pos.longitude.toString(),
-            //                 latitute: '11.5462445',
-            //                 longitute: '104.9149083',
+            //                 latitute: pos.latitude.toString(),
+            //                 longitute:  pos.longitude.toString(),
             //               );
             //               Get.snackbar("Success", "Check-in successful ✅");
             //               Get.back();
@@ -186,7 +219,7 @@ class _ScanQrPageState extends State<ScanQrPage>
             //             // Already has shiftId → CHECK-OUT
             //             final pos = await _determinePosition();
             //             if (pos != null) {
-            //               await _shifCtr.handleQrScanner(
+            //               await _shifCtr.handleAttendance(
             //                 latitute: pos.latitude.toString(),
             //                 longitute: pos.longitude.toString(),
             //               );
@@ -199,7 +232,7 @@ class _ScanQrPageState extends State<ScanQrPage>
             //     },
             //   ),
             // ),
-            Positioned.fill(
+            Positioned(
               child: MobileScanner(
                 controller: _scannerController,
                 onDetect: (capture) async {
@@ -218,17 +251,15 @@ class _ScanQrPageState extends State<ScanQrPage>
 
                       final pos = await _determinePosition();
                       if (pos != null) {
-                        // ✅ Use unified controller method
+                        //  Use unified controller method
                         await _shifCtr.handleAttendance(
                           latitute: pos.latitude.toString(),
                           longitute: pos.longitude.toString(),
-                          // latitute: '11.5462445',
-                          // longitute: '104.9149083',
                           fromQr: true,
                         );
-                        Get.back(); // go back after success
+                        Get.back();
                       } else {
-                        setState(() => _isScanerSuccess = false);
+                        setState(() => _isScanerSuccess = true);
                       }
                     }
                   }

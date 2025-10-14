@@ -1,9 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:cyspharama_app/data/models/user_model.dart';
-import 'package:cyspharama_app/services/storage_service.dart';
 import 'package:get/get.dart';
+import '../../../../data/models/user_model.dart';
+import '../../../../services/storage_service.dart';
 import '../models/attenace_model.dart';
 import '../services/attenance_service.dart';
 import 'shift_controller.dart';

@@ -1,7 +1,9 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../core/themes/app_colors.dart';
+import 'controllers/auth_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

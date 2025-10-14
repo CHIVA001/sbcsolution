@@ -1,7 +1,9 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/services/storage_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../../services/storage_service.dart';
+import '../../themes/app_colors.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});

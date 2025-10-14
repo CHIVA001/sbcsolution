@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:get/get.dart';
-import 'package:cyspharama_app/features/dashboad_page/product_page/models/product_model.dart';
-import 'package:cyspharama_app/features/dashboad_page/product_page/services/product_service.dart';
+
+import '../models/product_model.dart';
+import '../services/product_service.dart';
 
 enum ViewState { idle, loading, error, network }
 

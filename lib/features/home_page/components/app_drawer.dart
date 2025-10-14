@@ -1,16 +1,16 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/features/auth/controllers/nav_bar_controller.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../../core/localization/my_text.dart';
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../routes/app_routes.dart';
+import '../../auth/controllers/auth_controller.dart';
+import '../../auth/controllers/nav_bar_controller.dart';
+
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
-
   @override
   State<AppDrawer> createState() => _AppDrawerState();
 }

@@ -1,9 +1,10 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/home_page/components/app_drawer.dart';
+
 import 'package:flutter/material.dart';
 
+import '../../core/themes/app_colors.dart';
+import '../../core/themes/app_style.dart';
 import '../../widgets/build_app_bar.dart';
+import '../home_page/components/app_drawer.dart';
 
 class HistoryPage extends StatelessWidget {
   HistoryPage({super.key});

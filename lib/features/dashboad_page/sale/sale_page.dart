@@ -1,14 +1,14 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/dashboad_page/sale/controller/sale_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/sale/sale_detail.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/localization/my_text.dart';
 import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../widgets/build_app_bar.dart';
+import 'controller/sale_controller.dart';
+import 'sale_detail.dart';
 
 class SalesPage extends StatelessWidget {
   SalesPage({super.key});

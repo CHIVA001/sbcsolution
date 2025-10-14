@@ -1,11 +1,11 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_style.dart';
 import '../../core/utils/app_image.dart';
 import '../../widgets/build_app_bar.dart';
+import '../../widgets/cached_image.dart';
+import '../auth/controllers/auth_controller.dart';
 import '../home_page/components/app_drawer.dart';
 
 class ProfilePage extends StatelessWidget {

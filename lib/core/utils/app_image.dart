@@ -1,6 +1,8 @@
 //
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
+
+
+import '../../routes/app_routes.dart';
+import '../localization/my_text.dart';
 
 class AppImage {
   static const String logoApp = 'assets/logos/logo.png';

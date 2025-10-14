@@ -1,11 +1,12 @@
-import 'package:cyspharama_app/bindings/app_binding.dart';
-import 'package:cyspharama_app/core/localization/transtation.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import 'bindings/app_binding.dart';
+import 'core/localization/transtation.dart';
+import 'core/themes/app_colors.dart';
+import 'routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

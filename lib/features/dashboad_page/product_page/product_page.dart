@@ -1,15 +1,16 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/features/dashboad_page/product_page/product_detail.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:cyspharama_app/features/dashboad_page/product_page/services/product_service.dart';
-import 'package:cyspharama_app/features/dashboad_page/product_page/controllers/product_controller.dart';
 
+import '../../../core/localization/my_text.dart';
+import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_style.dart';
+import '../../../widgets/build_app_bar.dart';
+import 'controllers/product_controller.dart';
+import 'product_detail.dart';
+import 'services/product_service.dart';
 
 class ProductPage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
