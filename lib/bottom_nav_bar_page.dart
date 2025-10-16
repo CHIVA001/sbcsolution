@@ -83,6 +83,7 @@ class _BottomNavBarState extends State<BottomNavBarPage> {
                 icon: Icon(Icons.home),
                 label: MyText.home.tr,
               ),
+              
               BottomNavigationBarItem(
                 icon: Icon(Icons.history),
                 label: MyText.history.tr,

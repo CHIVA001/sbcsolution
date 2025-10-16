@@ -6,22 +6,22 @@ class CustomerModel {
   final String email;
   final String phone;
   final String? gender;
-  final int? age; // Age can be null in your data, so it's a nullable int
+  final int? age; 
   final String customerGroupName;
   final String? attachmentUrl;
   final String status;
-  final String? address; // Address can be null
-  final String? creditTerm; // Can be null
-  final double? creditLimit; // Use double for monetary values and can be null
+  final String? address; 
+  final String? creditTerm; 
+  final double? creditLimit; 
   final int activeInvoice;
-  final String? vatNo; // VAT number can be null
-  final String? contactPerson; // New field from your data
-  final String? createdBy; // New field
-  final String? city; // New field
-  final String? district; // New field
-  final String? commune; // New field
-  final String? village; // New field
-  final String? streetNo; // New field
+  final String? vatNo; 
+  final String? contactPerson; 
+  final String? createdBy; 
+  final String? city; 
+  final String? district; 
+  final String? commune; 
+  final String? village; 
+  final String? streetNo; 
 
   CustomerModel({
     required this.id,

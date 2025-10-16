@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -110,7 +109,7 @@ class DayOffPage extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () => Get.to(
                           () => DayOffDetail(dayOff: data),
-                          transition: Transition.upToDown,
+                          // transition: Transition.upToDown,
                         ),
                         child: Card(
                           elevation: 0,

@@ -287,6 +287,7 @@ class _ScanQrPageState extends State<ScanQrPage>
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
                   ),
+                  textAlign: TextAlign.center,
                 ),
 
                 /// Scanner frame

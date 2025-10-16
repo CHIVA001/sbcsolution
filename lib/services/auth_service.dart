@@ -74,7 +74,7 @@ class AuthService {
       final data = json.decode(response.body);
       return CompanyModel.fromJson(data);
     } else {
-      throw Exception("Server error: ${response.statusCode}");
+      throw Exception("Server error(comapny): ${response.statusCode}");
     }
   }
 }
