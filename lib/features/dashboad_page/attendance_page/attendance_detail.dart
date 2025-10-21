@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -41,11 +40,18 @@ class AttendanceDetail extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               '$checkInDate  -  $checkOutDate',
-              style: textdefualt().copyWith(color: AppColors.textColor),
+              style: textdefualt().copyWith(
+                fontWeight: FontWeight.w500,
+                color: AppColors.darkGrey,
+              ),
             ),
+            SizedBox(height: 8.0),
             Text(
               'Total Time: $totalMinute',
-              style: textdefualt().copyWith(color: AppColors.textColor),
+              style: textdefualt().copyWith(
+                fontWeight: FontWeight.w500,
+                color: AppColors.darkGrey,
+              ),
             ),
             const SizedBox(height: 20),
             TimelineTile(

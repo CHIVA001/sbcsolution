@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -11,14 +10,11 @@ import 'customer_detail.dart';
 
 class CustomerPage extends StatelessWidget {
   CustomerPage({super.key});
-  final _controller = Get.put(CustomerController());
 
-  final ScrollController _scrollController = ScrollController();
+  final _controller = Get.put(CustomerController());
 
   @override
   Widget build(BuildContext context) {
-    _scrollController.addListener(_onScroll);
-
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: buildAppBar(title: MyText.customer.tr),
@@ -35,11 +31,11 @@ class CustomerPage extends StatelessWidget {
                     controller: _controller.searchInputController,
                     decoration: InputDecoration(
                       hintText: 'Search name',
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       suffixIcon: _controller.searchTerm.isNotEmpty
                           ? IconButton(
-                              onPressed: () => _controller.clearShearch(),
-                              icon: Icon(Icons.close),
+                              onPressed: _controller.clearSearch,
+                              icon: const Icon(Icons.close),
                             )
                           : null,
                       border: OutlineInputBorder(
@@ -58,20 +54,18 @@ class CustomerPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          'Customer: ${_controller.serverTotalCustomers} ',
+                          'Customers: ${_controller.serverTotalCustomers}',
                           style: textMeduim(),
                           textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
                         ),
                       ),
                       Expanded(
                         child: Text(
-                          'Active: ${_controller.activeCustomersCount}',
+                          _controller.state.value == ViewState.loading
+                              ? 'Active:  ${_controller.activeCustomersCount}'
+                              : 'Active:  ${_controller.activeCustomersCount + 1}',
                           style: textMeduim(),
                           textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
                         ),
                       ),
                       Expanded(
@@ -79,54 +73,54 @@ class CustomerPage extends StatelessWidget {
                           'Inactive: ${_controller.inactiveCustomersCount}',
                           style: textMeduim(),
                           textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Divider(),
               ),
             ],
           ),
+
+          // 📋 Customer List Body
           Expanded(
             child: Obx(() {
+              // 🕑 Loading state
               if (_controller.state.value == ViewState.loading) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [CircularProgressIndicator()],
-                  ),
-                );
+                return const Center(child: CircularProgressIndicator());
               }
+
+              // 🌐 Network error
               if (_controller.state.value == ViewState.network) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.wifi_off,
                         size: 64.0,
                         color: AppColors.darkGrey,
                       ),
                       Text(
-                        'Network not Available',
+                        'Network not available',
                         style: textMeduim().copyWith(color: AppColors.darkGrey),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       ElevatedButton.icon(
-                        onPressed: () =>
-                            _controller.fetchCustomers(isRefresh: true),
-                        label: Text('Try again'),
+                        onPressed: _controller.fetchCustomers,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Try again'),
                       ),
                     ],
                   ),
                 );
               }
+
+              // ❌ Error
               if (_controller.isError.value) {
                 return Center(
                   child: Column(
@@ -137,78 +131,71 @@ class CustomerPage extends StatelessWidget {
                         size: 64.0,
                         color: AppColors.dangerColor.withOpacity(0.5),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       Text(
-                        'Error Service: 500',
+                        'Error Service: ${_controller.errorMessage}',
                         style: textMeduim().copyWith(color: AppColors.darkGrey),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       ElevatedButton.icon(
-                        onPressed: () => _controller.fetchCustomers(),
-                        label: Text('Try again'),
+                        onPressed: _controller.fetchCustomers,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Try again'),
                       ),
                     ],
                   ),
                 );
               }
+
+              // 🧍 No customers
               if (_controller.customers.isEmpty) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Icon(Icons.person, size: 64.0, color: AppColors.darkGrey),
                       SizedBox(height: 8.0),
                       Text(
-                        'Customer Not found!',
-                        style: textMeduim().copyWith(color: AppColors.darkGrey),
+                        'Customer not found!',
+                        style: TextStyle(color: AppColors.darkGrey),
                       ),
                     ],
                   ),
                 );
               }
+
+              // 🔍 No match in search
               if (_controller.filteredCustomers.isEmpty &&
                   _controller.searchTerm.isNotEmpty) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Icon(
                         Icons.search_off,
                         size: 64,
                         color: AppColors.darkGrey,
                       ),
+                      SizedBox(height: 8.0),
                       Text(
                         'Not found!',
-                        style: textdefualt().copyWith(
-                          color: AppColors.darkGrey,
-                        ),
+                        style: TextStyle(color: AppColors.darkGrey),
                       ),
                     ],
                   ),
                 );
               }
+
+              // ✅ Display Customer List
               return RefreshIndicator(
-                onRefresh: () => _controller.fetchCustomers(isRefresh: true),
+                onRefresh: _controller.fetchCustomers,
                 child: AnimationLimiter(
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(
                       parent: AlwaysScrollableScrollPhysics(),
                     ),
-                    controller: _scrollController,
-                    itemCount:
-                        _controller.filteredCustomers.length +
-                        (_controller.isLoadingMore.value &&
-                                _controller.searchTerm.isEmpty
-                            ? 1
-                            : 0),
+                    itemCount: _controller.filteredCustomers.length,
                     itemBuilder: (context, index) {
-                      if (index == _controller.filteredCustomers.length) {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      }
-
                       final customer = _controller.filteredCustomers[index];
                       final firstLetter = customer.name.isNotEmpty
                           ? customer.name[0].toUpperCase()
@@ -232,11 +219,6 @@ class CustomerPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: ListTile(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadiusGeometry.circular(
-                                    12.0,
-                                  ),
-                                ),
                                 tileColor: AppColors.backgroundColor,
                                 onTap: () {
                                   Get.to(
@@ -300,12 +282,5 @@ class CustomerPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      _controller.fetchCustomers();
-    }
   }
 }

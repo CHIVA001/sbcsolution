@@ -34,32 +34,31 @@ class AuthController extends GetxController with WidgetsBindingObserver {
   String _userId = "";
 
   @override
-  void onInit() async {
-    final getUserId = await _storage.readData('user_id');
-    _userId = getUserId ?? "";
-    // if (_userId != null) {
-    //   _refreshTimer = Timer.periodic(
-    //     const Duration(seconds: 3),
-    //     (timer) => _refreshUser(),
-    //   );
-    // }
-
+  void onInit() {
     WidgetsBinding.instance.addObserver(this);
-    getProfile();
-    _refreshUser();
-    // _storage.readData('user_id').then((userId) {
-    //   if (userId != null) {
-    //     _refreshTimer = Timer.periodic(const Duration(seconds: 3), (timer) => _refreshUser());
-    //   }
-    // });
-    getCompanies();
+    _initializeUser();
+    refreshUser();
     super.onInit();
   }
 
   @override
   void onClose() {
-    // _refreshTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
+    _refreshTimer?.cancel();
     super.onClose();
+  }
+
+  Future<void> _initializeUser() async {
+    final getUserId = await _storage.readData('user_id');
+    _userId = getUserId ?? "";
+    // if (_userId.isNotEmpty) {
+    //   _refreshTimer = Timer.periodic(
+    //     const Duration(seconds: 2),
+    //     (timer) => _refreshUser(),
+    //   );
+    // }
+    _refreshUser();
+    getCompanies();
   }
 
   Future<void> _refreshUser() async {
@@ -81,6 +80,9 @@ class AuthController extends GetxController with WidgetsBindingObserver {
 
   Future<void> refreshUser() async {
     try {
+      final userId = await _storage.readData('user_id');
+      if (userId == null || userId.isEmpty) return;
+      _userId = userId;
       final userData = await _service.getUser(_userId);
       _user(userData);
     } catch (e) {
@@ -89,12 +91,15 @@ class AuthController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> login(String username, String password) async {
+    if (username.isEmpty || password.isEmpty) {
+      MessageDialog.error("Username and Password cannot be empty!");
+      return;
+    }
     _isLoading(true);
     _message("");
 
     try {
       final response = await _service.login(username, password);
-
       _user(response);
       await _storage.writeData('user_id', response.id);
       await _storage.writeData('emp_id', response.empId);
@@ -104,34 +109,39 @@ class AuthController extends GetxController with WidgetsBindingObserver {
       //   const Duration(seconds: 10),
       //   (timer) => _refreshUser(),
       // );
-      // _refreshUser();
-
+      // getProfile();
       _isLoading(false);
       // Get.snackbar("Login", "Welcome ${response.firstName}!");
       _message("Login successful");
-
-      Get.offAll(() => BottomNavBarPage());
+      refreshUser();
+      Get.offAllNamed(AppRoutes.navBar);
     } on SocketException {
       _errorNetwork(true);
     } catch (e) {
       _isLoading(false);
-      _message("Login failed: ${e.toString()}");
-      MessageDialog.error('Username & Password invalid!');
+      try {
+        await _service.login(username, password);
+      } catch (e) {
+        final message = e.toString();
+        // You can extract only message text if needed:
+        final cleanMessage = message.replaceAll("Exception:", "").trim();
+        MessageDialog.error(cleanMessage);
+      }
     }
   }
 
-  Future<void> getProfile() async {
-    try {
-      if (_userId != "") {
-        final response = await _service.getProfile(userId: _userId);
-        _user(response);
-      }
-    } on SocketException {
-      _errorNetwork(true);
-    } catch (e) {
-      log("Profile refresh error: $e");
-    }
-  }
+  // Future<void> getProfile() async {
+  //   try {
+  //     if (_userId != "" || _userId.isNotEmpty) {
+  //       final response = await _service.getProfile(userId: _userId);
+  //       _user(response);
+  //     }
+  //   } on SocketException {
+  //     _errorNetwork(true);
+  //   } catch (e) {
+  //     log("Profile refresh error: $e");
+  //   }
+  // }
 
   // get companies
   Future<void> getCompanies() async {
@@ -150,6 +160,7 @@ class AuthController extends GetxController with WidgetsBindingObserver {
   Future<void> logout() async {
     await _storage.deleteData('user_id');
     await _storage.deleteData('emp_id');
+    await _storage.deleteData('shift_id');
     _user(null);
     _refreshTimer?.cancel();
     Get.offAllNamed(AppRoutes.login);

@@ -83,12 +83,27 @@ class TimeLeavePage extends StatelessWidget {
               ),
             );
           }
-
           if (controller.timeLeaveList.isEmpty) {
             return Center(
-              child: Text(
-                'No leave requests found',
-                style: theme.textTheme.titleMedium,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.calendar_today,
+                    size: 64.0,
+                    color: AppColors.darkGrey,
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'No Time Leave Records',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
+                  ElevatedButton.icon(
+                    onPressed: () => controller.getTimeLeave(),
+                    label: Text('Refresh'),
+                  ),
+                ],
               ),
             );
           }

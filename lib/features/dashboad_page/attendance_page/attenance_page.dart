@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -79,7 +78,7 @@ class _AttendancePageState extends State<AttendancePage> {
                 SizedBox(height: 8.0),
                 ElevatedButton.icon(
                   onPressed: () => _controller.getCheckInOut(),
-                  label: Text('Try again'),
+                  label: Text('Refresh'),
                 ),
               ],
             ),
@@ -99,20 +98,17 @@ class _AttendancePageState extends State<AttendancePage> {
                 SizedBox(height: 8.0),
                 ElevatedButton.icon(
                   onPressed: () => _controller.getCheckInOut(),
-                  label: Text('Try again'),
+                  label: Text('Refresh'),
                 ),
               ],
             ),
           );
         } else if (_controller.checkInOutData.isEmpty) {
-          return Center(
-            child: Text(
-              'Not Attendance',
-              style: textdefualt().copyWith(
-                color: AppColors.darkGrey,
-                fontSize: 20.0,
-              ),
-            ),
+          return _buildEmptyState(
+            _controller.empId.isNotEmpty ? _controller.empId : 'N/A',
+            _selectedDate != null
+                ? DateFormat('dd-MMM-yyyy').format(_selectedDate!)
+                : null,
           );
         }
 

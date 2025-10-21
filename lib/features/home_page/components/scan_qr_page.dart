@@ -1,11 +1,11 @@
 import 'dart:developer';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:get/get.dart';
-
+import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_style.dart';
-import '../../auth/controllers/auth_controller.dart';
 import '../../dashboad_page/attendance_page/controllers/attendance_controller.dart';
 import '../../dashboad_page/attendance_page/controllers/shift_controller.dart';
 
@@ -26,9 +26,9 @@ class _ScanQrPageState extends State<ScanQrPage>
     detectionTimeoutMs: 250,
   );
 
-  final _companyCtr = Get.find<AuthController>();
+  // final _companyCtr = Get.find<AuthController>();
   final attCtr = Get.find<AttendanceController>();
-  final _shifCtr = Get.find<ShiftController>();
+  final _shifCtr = Get.put(ShiftController());
   bool _isScanerSuccess = false;
   @override
   void initState() {
@@ -37,8 +37,6 @@ class _ScanQrPageState extends State<ScanQrPage>
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat(reverse: false);
-    // final qr = _companyCtr.companies.first.qrCode;
-    // log("myqr : $qr");
   }
 
   void handleScanQrcode() async {
@@ -73,16 +71,20 @@ class _ScanQrPageState extends State<ScanQrPage>
 
   Future<Position?> _determinePosition() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
     if (!serviceEnabled) {
       Get.defaultDialog(
         title: 'Location',
-        radius: 2,
+        radius: 8,
         titleStyle: textBold().copyWith(fontSize: 24.0),
-
         content: Column(
           children: [
-            Text('Please enable location services', style: textdefualt()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                'Please enable your location service and try again.',
+                style: textdefualt(),
+              ),
+            ),
           ],
         ),
         actions: [
@@ -102,52 +104,66 @@ class _ScanQrPageState extends State<ScanQrPage>
       );
       return null;
     }
+
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      Get.defaultDialog(
-        title: 'Location',
-        titlePadding: EdgeInsets.symmetric(vertical: 8.0),
-        content: Column(
-          children: [Text('Location permission permanently denied')],
-        ),
-        actions: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: Text(
-                "Ok",
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        Get.defaultDialog(
+          title: 'Location Permission',
+          titlePadding: EdgeInsets.symmetric(vertical: 8.0),
+          content: Column(
+            children: [
+              Text(
+                'Location permission denied. Please allow location access to use this feature.',
+              ),
+            ],
+          ),
+          actions: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text(
+                  "Ok",
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                ),
               ),
             ),
-          ),
-        ],
-      );
-      return null;
+          ],
+        );
+        return null;
+      }
     }
+
     if (permission == LocationPermission.deniedForever) {
-      Get.defaultDialog(
-        title: 'Location',
-        titlePadding: EdgeInsets.symmetric(vertical: 8.0),
-        content: Column(
-          children: [Text('Location permission permanently denied')],
-        ),
-        actions: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: () {
-                Get.back();
-              },
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Error'),
+          content: Text(
+            'Location permission has been permanently denied. '
+            'Please enable it manually in Settings.',
+            style: textMeduim(),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => AppSettings.openAppSettings(),
+              child: Text('Settings', style: textdefualt()),
+            ),
+            TextButton(
+              onPressed: () => Get.back(),
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.primaryColor,
+              ),
               child: Text(
-                "Ok",
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                'OK',
+                style: textdefualt().copyWith(color: AppColors.textLight),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
       return null;
     }
@@ -183,55 +199,6 @@ class _ScanQrPageState extends State<ScanQrPage>
         }
         return Stack(
           children: [
-            // Positioned.fill(
-            //   child: MobileScanner(
-            //     controller: _scannerController,
-            //     onDetect: (capture) async {
-            //       if (_isScanerSuccess) return;
-            //       final List<Barcode> barcodes = capture.barcodes;
-
-            //       if (barcodes.isNotEmpty) {
-            //         final String? scannedQr = barcodes.first.rawValue;
-            //         final String expectedQr = _shifCtr.qrCode;
-
-            //         log("Scanned QR: $scannedQr");
-            //         log("Expected QR: $expectedQr");
-
-            //         if (scannedQr != null && scannedQr == expectedQr) {
-            //           setState(() => _isScanerSuccess = true);
-            //           _scannerController.stop();
-
-            //           // ✅ Check logic
-            //           if (_shifCtr.shiftId.isEmpty) {
-            //             // First time → CHECK-IN
-            //             final pos = await _determinePosition();
-            //             if (pos != null) {
-            //               await _shifCtr.handleAttendance(
-            //                 // latitute: pos.latitude.toString(),
-            //                 // longitute: pos.longitude.toString(),
-            //                 latitute: pos.latitude.toString(),
-            //                 longitute:  pos.longitude.toString(),
-            //               );
-            //               Get.snackbar("Success", "Check-in successful ✅");
-            //               Get.back();
-            //             }
-            //           } else {
-            //             // Already has shiftId → CHECK-OUT
-            //             final pos = await _determinePosition();
-            //             if (pos != null) {
-            //               await _shifCtr.handleAttendance(
-            //                 latitute: pos.latitude.toString(),
-            //                 longitute: pos.longitude.toString(),
-            //               );
-            //               Get.snackbar("Success", "Check-out successful ✅");
-            //               Get.back();
-            //             }
-            //           }
-            //         }
-            //       }
-            //     },
-            //   ),
-            // ),
             Positioned(
               child: MobileScanner(
                 controller: _scannerController,
@@ -257,7 +224,7 @@ class _ScanQrPageState extends State<ScanQrPage>
                           longitute: pos.longitude.toString(),
                           fromQr: true,
                         );
-                        Get.back();
+                        // Get.back();
                       } else {
                         setState(() => _isScanerSuccess = true);
                       }

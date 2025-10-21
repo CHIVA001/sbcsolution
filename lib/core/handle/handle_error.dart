@@ -1,8 +1,6 @@
-import 'package:cyspharama_app/core/themes/app_style.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class HandleMessage {
   // Success

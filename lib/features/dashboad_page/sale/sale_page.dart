@@ -40,7 +40,7 @@ class SalesPage extends StatelessWidget {
                   SizedBox(height: 8.0),
                   ElevatedButton.icon(
                     onPressed: () => _saleCtr.fetchSales(),
-                    label: Text('Try again'),
+                    label: Text('Refresh'),
                   ),
                 ],
               ),
@@ -64,7 +64,7 @@ class SalesPage extends StatelessWidget {
                   SizedBox(height: 8.0),
                   ElevatedButton.icon(
                     onPressed: () => _saleCtr.fetchSales(),
-                    label: Text('Try again'),
+                    label: Text('Refresh'),
                   ),
                 ],
               ),
@@ -93,7 +93,7 @@ class SalesPage extends StatelessWidget {
                   SizedBox(height: 24.0),
                   ElevatedButton.icon(
                     onPressed: () => _saleCtr.fetchSales(),
-                    label: Text('Try again'),
+                    label: Text('Refresh'),
                   ),
                 ],
               ),

@@ -6,13 +6,15 @@ import '../../../../core/constants/app_url.dart';
 import '../models/shift_model.dart';
 
 class ShiftService {
-  Future<ShiftModel?> getShift({required String userId, required String empId,}) async {
+  Future<ShiftModel?> getShift({
+    required String userId,
+    required String empId,
+  }) async {
     try {
       final response = await http.post(
         Uri.parse(AppUrl.getShift),
         headers: {'api-key': AppUrl.apiKey},
-        body: {'user_id': userId,
-        'emp_id': empId},
+        body: {'user_id': userId, 'emp_id': empId},
       );
 
       // log('Status: ${response.statusCode}');
@@ -42,7 +44,7 @@ class ShiftService {
           return null;
         }
       } else {
-        log('HTTP Error: ${response.statusCode}');
+        log('HTTP Error(shift CTR): ${response.statusCode}');
         return null;
       }
     } catch (e) {

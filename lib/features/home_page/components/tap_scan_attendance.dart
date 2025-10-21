@@ -69,9 +69,6 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
     });
     if (_shifCtr.isLoading.value) return;
     Position? pos = await _determinePosition();
-    // String location = pos != null
-    //     ? '{"latitute":${pos.latitude},"longitute":${pos.longitude}}'
-    //     : '{"latitute":null,"longitute":null}';
     if (pos == null) {
       setState(() {
         _isLongTap = false;
@@ -82,19 +79,14 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
     String longitute = '${pos.longitude}';
     String latitute = '${pos.latitude}';
     if (latitute.isNotEmpty || longitute.isNotEmpty) {
-      // await _shifCtr.handleTapCheckInOut(
-      //   latitute: latitute,
-      //   longitute: longitute,
-      // );
       await _shifCtr.handleAttendance(
         latitute: pos.latitude.toString(),
         longitute: pos.longitude.toString(),
-        fromQr: false, // 👉 tap mode
+        fromQr: false, 
       );
       log('latitute: $latitute');
       log('longitute: $longitute');
     }
-    // _shifCtr.handleTap();
     setState(() {
       _isLongTap = false;
     });
@@ -180,11 +172,11 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
           ),
           actions: [
             TextButton(
-              onPressed: () => Get.back(),
+              onPressed: () => AppSettings.openAppSettings(),
               child: Text('Settings', style: textdefualt()),
             ),
             TextButton(
-              onPressed: () => AppSettings.openAppSettings(),
+              onPressed: () => Get.back(),
               style: TextButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
               ),

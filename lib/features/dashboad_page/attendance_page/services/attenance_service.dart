@@ -144,9 +144,8 @@ class AttendanceService {
     try {
       final response = await http
           .get(
-            Uri.parse(
-              "${AppUrl.getAttendance}?api-key=${AppUrl.apiKey}&employee_id=$employeeId",
-            ),
+            Uri.parse("${AppUrl.getAttendance}?employee_id=$employeeId"),
+            headers: {'api-key': AppUrl.apiKey},
           )
           .timeout(const Duration(seconds: 10));
       final data = json.decode(response.body);

@@ -1,3 +1,4 @@
+import 'package:cyspharama_app/core/handle/handle_error.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       // drawer
       drawer: AppDrawer(),
       body: RefreshIndicator(
-        onRefresh: () async => _controller.getProfile(),
+        onRefresh: () async => _controller.refreshUser(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: CustomScrollView(
@@ -213,7 +214,9 @@ class _HomePageState extends State<HomePage> {
         height: 60,
         child: FloatingActionButton(
           onPressed: () {
-            if (user != null && user.isRemoteAllow == "0") {
+            if (user?.empId == '0') {
+              MessageDialog.error('Check In/Out For Employee only');
+            } else if (user != null && user.isRemoteAllow == "0") {
               Get.to(() => ScanQrPage(), transition: Transition.downToUp);
             } else {
               Get.to(

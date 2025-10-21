@@ -1,43 +1,58 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cyspharama_app/core/constants/app_url.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import '../../../../core/constants/app_url.dart';
 import '../customer_model.dart';
 
-class CustomerFetchResult {
-  final List<CustomerModel> customers;
-  final int totalCount;
-
-  CustomerFetchResult(this.customers, this.totalCount);
-}
-
 class CustomerService {
-  Future<CustomerFetchResult> fetchCustomers({
-    int start = 0,
-    int limit = 20,
-  }) async {
+  Future<Response> fetchAllCustomers({int pageLimit = 10}) async {
     try {
-      final url = '${AppUrl.baseUrl}/companies?start=$start&limit=$limit';
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {'api-key': AppUrl.apiKey},
-      );
+      int start = 1;
+      final List<CustomerModel> all = [];
+      int total = -1;
 
-      if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        final List<dynamic> data = jsonResponse['data'];
-        final int total = jsonResponse['total'] ?? 0;
+      while (true) {
+        final uri = Uri.parse(AppUrl.getCustomer).replace(
+          queryParameters: {
+            'start': start.toString(),
+            'limit': pageLimit.toString(),
+          },
+        );
 
-        final customers = data.map((e) => CustomerModel.fromJson(e)).toList();
+        final res = await http
+            .get(uri, headers: {'api-key': AppUrl.apiKey})
+            .timeout(const Duration(seconds: 15));
 
-        return CustomerFetchResult(customers, total + 1);
-      } else {
-        throw Exception('Failed to load customers');
+        if (res.statusCode != 200) {
+          return Response(statusCode: res.statusCode, body: res.body);
+        }
+
+        final Map<String, dynamic> jsonData = json.decode(res.body);
+        final List<dynamic> data = (jsonData['data'] as List<dynamic>?) ?? [];
+
+        final pageItems = data
+            .map((e) => CustomerModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+        all.addAll(pageItems);
+
+        total = jsonData['total'] is int
+            ? jsonData['total']
+            : int.tryParse(jsonData['total']?.toString() ?? '') ?? total;
+
+        if (pageItems.length < pageLimit) break;
+        if (total >= 0 && all.length >= total) break;
+
+        start += pageLimit;
       }
+
+      return Response(statusCode: 200, body: all);
     } on SocketException {
-      throw SocketException('No Internet connection');
+      return Response(statusCode: 503, body: 'No Internet connection');
+    } on FormatException catch (e) {
+      return Response(statusCode: 400, body: 'Invalid response format: $e');
     } catch (e) {
-      throw Exception('Error Customer: $e');
+      return Response(statusCode: 500, body: e.toString());
     }
   }
 }

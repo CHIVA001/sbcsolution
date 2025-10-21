@@ -50,7 +50,7 @@ class DayOffPage extends StatelessWidget {
                 SizedBox(height: 8.0),
                 ElevatedButton.icon(
                   onPressed: () => controller.fetchDayOff(),
-                  label: Text('Try again'),
+                  label: Text('Refresh'),
                 ),
               ],
             ),
@@ -74,7 +74,30 @@ class DayOffPage extends StatelessWidget {
                 SizedBox(height: 8.0),
                 ElevatedButton.icon(
                   onPressed: () => controller.fetchDayOff(),
-                  label: Text('Try again'),
+                  label: Text('Refresh'),
+                ),
+              ],
+            ),
+          );
+        }
+        if (controller.dayOffList.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.event_busy, size: 64.0, color: AppColors.darkGrey),
+                SizedBox(height: 8.0),
+                Text(
+                  'No Day Off Records',
+                  style: textMeduim().copyWith(color: AppColors.darkGrey),
+                ),
+                SizedBox(height: 8.0),
+                ElevatedButton.icon(
+                  onPressed: () => controller.fetchDayOff(),
+                  label: Text(
+                    'Refresh',
+                    style: textdefualt().copyWith(color: AppColors.textLight),
+                  ),
                 ),
               ],
             ),

@@ -37,7 +37,7 @@ class ReportPage extends StatelessWidget {
                   SizedBox(height: 8.0),
                   ElevatedButton.icon(
                     onPressed: () => controller.getReport(),
-                    label: Text('Try again'),
+                    label: Text('Refresh'),
                   ),
                 ],
               ),
@@ -61,7 +61,7 @@ class ReportPage extends StatelessWidget {
                   SizedBox(height: 8.0),
                   ElevatedButton.icon(
                     onPressed: () => controller.getReport(),
-                    label: Text('Try again'),
+                    label: Text('Refresh'),
                   ),
                 ],
               ),

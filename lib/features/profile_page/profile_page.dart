@@ -57,6 +57,11 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 40.0),
 
             SizedBox(height: 12.0),
+            user?.empId != '0'
+                ? _textInput(icon: Icons.person, hintText: 'Employee')
+                : SizedBox.shrink(),
+
+            SizedBox(height: 16.0),
             _textInput(
               icon: Icons.phone,
               hintText: user?.phone != '' ? '${user?.phone}' : 'N/A',
@@ -69,7 +74,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 16.0),
             _textInput(
               // for gender
-              icon: Icons.person,
+              icon: user?.gender == 'male' ? Icons.male : Icons.woman,
               hintText: user?.gender != null ? '${user?.gender}' : 'N/A',
             ),
             SizedBox(height: 16.0),

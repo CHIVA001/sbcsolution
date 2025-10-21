@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   // Primary logo color
   static const Color primaryColor = Color(0xFF009543);
+  static const Color primaryRed = Color(0xFFB8505B);
 
   // Lighter shades
   static const Color primaryLight = Color(0xFF33B267);
@@ -35,7 +36,17 @@ class AppColors {
 
 }
 
-
+Color getStatusColor(String status) {
+  switch (status.toLowerCase()) {
+    case 'completed':
+      return Colors.green;
+    case 'ordered':
+      return Colors.blue;
+    case 'partial':
+      return Colors.orange;
+    default:
+      return Colors.red;
+  }}
 
 
 const Map<String, Color> listColors = {

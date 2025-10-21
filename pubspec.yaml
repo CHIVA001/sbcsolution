@@ -46,14 +46,22 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   cached_network_image: ^3.4.1
   dropdown_search: ^6.0.2
-  lottie: ^3.3.1
+  lottie: ^2.7.0
   geolocator: ^14.0.2
   geocoding: ^4.0.0
   fluttertoast: ^8.2.13
   url_launcher: ^6.3.2
-  flutter_launcher_icons: ^0.14.4
+  flutter_launcher_icons: ^0.11.0
   timeline_tile: ^2.0.0
   app_settings: ^6.1.1
+  qr_code_tools: ^0.2.0
+  sunmi_printer_plus: ^4.1.1
+  shared_preferences: ^2.5.3
+  remixicon: ^1.4.1
+  fade_shimmer: ^2.4.0
+  image_picker: ^1.2.0
+  esc_pos_printer: ^4.1.0
+  esc_pos_utils: ^1.1.0
 
 dev_dependencies:
   flutter_test:

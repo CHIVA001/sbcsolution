@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 import '../core/constants/app_url.dart';
@@ -21,17 +22,22 @@ class AuthService {
         throw Exception(data['message'] ?? "Login failed");
       }
     } else {
-      throw Exception("Server error: ${response.statusCode}");
+      final data = json.decode(response.body);
+      throw Exception(
+        data['message'] ?? "Server error: ${response.statusCode}",
+      );
     }
   }
 
   /// get user profile
   Future<UserModel> getUser(String userId) async {
-    final response = await http.post(
-      Uri.parse(AppUrl.getProfile),
+    final response = await http.get(
+      Uri.parse(
+        AppUrl.getProfile,
+      ).replace(queryParameters: {'user_id': userId}),
       headers: {'api-key': AppUrl.apiKey},
-      body: {'user_id': userId},
     );
+    // log(response.statusCode.toString());
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       if (data['status'] == true) {
@@ -44,25 +50,26 @@ class AuthService {
     }
   }
 
-  Future<UserModel> getProfile({required String userId}) async {
-    final response = await http.post(
-      Uri.parse(AppUrl.getProfile),
-      headers: {'api-key': AppUrl.apiKey},
-      body: {'user_id': userId},
-    );
+  // Future<UserModel> getProfile({required String userId}) async {
+  //   final response = await http.post(
+  //     Uri.parse(AppUrl.getProfile),
+  //     headers: {'api-key': AppUrl.apiKey},
+  //     body: {'user_id': userId},
+  //   );
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+  //   if (response.statusCode == 200) {
+  //     final data = json.decode(response.body);
 
-      if (data['status'] == true) {
-        return UserModel.fromJson(data['data']);
-      } else {
-        throw Exception(data['message'] ?? "Login failed");
-      }
-    } else {
-      throw Exception("Server error: ${response.statusCode}");
-    }
-  }
+  //     if (data['status'] == true) {
+  //       return UserModel.fromJson(data['data']);
+  //     } else {
+  //       throw Exception(data['message'] ?? "Login failed");
+  //     }
+  //   } else {
+  //     log("Server error: ${response.statusCode}");
+  //     throw Exception("Server error: ${response.statusCode}");
+  //   }
+  // }
 
   // get comapny
   Future<CompanyModel> getCompany() async {

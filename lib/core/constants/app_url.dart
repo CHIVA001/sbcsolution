@@ -19,10 +19,16 @@ class AppUrl {
   static const String postApplyLeave = '$baseUrl/attendance/apply_leave';
   static const String getAttendance =
       '$baseUrl/attendance/get_checkin_checkout';
+  // Product
   static const String getProduct = '$baseUrl/products';
+  static const String getCategory = "$baseUrl/system_setting/categories";
+  // Customers
   static const String getCustomer = '$baseUrl/companies';
+  // Sale
   static const String getSale = '$baseUrl/sales';
+  // timeLeave
   static const String timeLeave = '$baseUrl/attendance/get_apply_leave';
+  // Dispatch
   static const String getDispatch = '$baseUrl/deliveries/getDispatch';
   static const String updateDispatch = '$baseUrl/deliveries/delivery_status';
 

@@ -1,3 +1,5 @@
+import '../features/products_page/cart/confirm_cart.dart';
+import '/features/products_page/products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../bottom_nav_bar_page.dart';
@@ -10,13 +12,15 @@ import '../features/dashboad_page/day_off_page/add_day_off.dart';
 import '../features/dashboad_page/day_off_page/day_off_page.dart';
 import '../features/dashboad_page/delivery_page/delivery_page.dart';
 import '../features/dashboad_page/delivery_page/scan_dispatch_page.dart';
-import '../features/dashboad_page/product_page/product_page.dart';
 import '../features/dashboad_page/report_page/report_page.dart';
 import '../features/dashboad_page/sale/sale_page.dart';
 import '../features/dashboad_page/time_leave_page/add_time_leave.dart';
 import '../features/dashboad_page/time_leave_page/time_leave_page.dart';
 import '../features/home_page/home_page.dart';
 import '../features/notifications/notification_page.dart';
+import '../features/products_page/controllers/product_controller.dart';
+import '../features/products_page/models/product_model.dart';
+import '../features/products_page/product_detail.dart';
 
 class AppRoutes {
   static const String splash = '/splash';
@@ -40,6 +44,7 @@ class AppRoutes {
   static const String reportDetail = '/report_detail';
   static const String scanDispatch = '/scan_dispatch';
   static const String notification = '/notification';
+  static const String confirmCart = '/confirmCart';
 
   static List<GetPage> routes = [
     //
@@ -74,7 +79,7 @@ class AppRoutes {
     ),
     GetPage(
       name: product,
-      page: () => ProductPage(),
+      page: () => ProductsPage(),
       transition: Transition.rightToLeft,
       transitionDuration: Duration(milliseconds: 250),
     ),
@@ -129,7 +134,31 @@ class AppRoutes {
       // transition: Transition.rightToLeft,
       customTransition: MyCustomTransition(),
     ),
+    // GetPage(name: '/products', page: () => ProductsPage()),
+    GetPage(
+      name: '$product/:id',
+      page: () {
+        final String id = Get.parameters['id']!;
+        if (id.isEmpty) return ProductsPage();
+        final product = getProductById(id);
+        return ProductDetail(product: product);
+      },
+      transition: Transition.rightToLeft,
+      transitionDuration: Duration(milliseconds: 200),
+    ), GetPage(
+      name: confirmCart,
+      page: () => ConfirmCart(),
+      transitionDuration: Duration(milliseconds: 200),
+      transition: Transition.leftToRight,
+    ),
   ];
+}
+ProductModel getProductById(String id) {
+  final controller = Get.find<ProductsController>();
+  return controller.products.firstWhere(
+    (p) => p.id == id,
+    orElse: () => throw Exception('Product with id $id not found'),
+  );
 }
 
 class MyCustomTransition extends CustomTransition {
