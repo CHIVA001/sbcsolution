@@ -94,7 +94,7 @@ class _AttendancePageState extends State<AttendancePage> {
                   color: AppColors.dangerColor.withOpacity(0.5),
                 ),
                 SizedBox(height: 8.0),
-                Text('Error Service: 500', style: textdefualt()),
+                Text(_controller.errorMessage.value, style: textdefualt()),
                 SizedBox(height: 8.0),
                 ElevatedButton.icon(
                   onPressed: () => _controller.getCheckInOut(),
@@ -108,7 +108,7 @@ class _AttendancePageState extends State<AttendancePage> {
             _controller.empId.isNotEmpty ? _controller.empId : 'N/A',
             _selectedDate != null
                 ? DateFormat('dd-MMM-yyyy').format(_selectedDate!)
-                : null,
+                : DateFormat('dd-MMM-yyyy').format(DateTime.now()),
           );
         }
 

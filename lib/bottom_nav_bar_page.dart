@@ -74,7 +74,7 @@ class _BottomNavBarState extends State<BottomNavBarPage> {
             onTap: (index) => _controller.currentIndex = index,
             backgroundColor: AppColors.bgColorLight,
             elevation: 0,
-            selectedItemColor: AppColors.primaryLight,
+            selectedItemColor: AppColors.primaryColor,
             unselectedItemColor: AppColors.darkGrey,
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
@@ -83,7 +83,7 @@ class _BottomNavBarState extends State<BottomNavBarPage> {
                 icon: Icon(Icons.home),
                 label: MyText.home.tr,
               ),
-              
+
               BottomNavigationBarItem(
                 icon: Icon(Icons.history),
                 label: MyText.history.tr,

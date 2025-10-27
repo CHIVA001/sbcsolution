@@ -131,7 +131,7 @@ class SalesPage extends StatelessWidget {
                         child: _saleCard(
                           customer: sale.customer,
                           pickNo: sale.pickNo,
-                          total: formattedTotal,
+                          total: sale.grandTotal,
                           status: sale.paymentStatus,
                           date: formattedDate,
                           bgColor: color!.withOpacity(0.1),
@@ -147,19 +147,26 @@ class SalesPage extends StatelessWidget {
           );
         }),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.qr_code_scanner),
+      ),
     );
   }
 
   Widget _saleCard({
     required String customer,
     required String pickNo,
-    required String total,
+    required double total,
     required String status,
     required String date,
     required Color bgColor,
     required Color nameColor,
     required Color sColor,
   }) {
+    final currencyFormat = NumberFormat.currency(locale: 'en_US', symbol: '\$');
+    final formattedTotal = currencyFormat.format(total);
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -203,13 +210,13 @@ class SalesPage extends StatelessWidget {
             ),
             const Divider(height: 20, thickness: 0.5),
 
-            _infoRow(Icons.person, 'Customer', customer, nameColor),
+            _infoRow(Icons.person, 'Customer', customer, AppColors.primaryRed),
             _infoRow(Icons.calendar_today, 'Date', date, AppColors.textPrimary),
             _infoRow(
               Icons.money,
               'Total',
-              total,
-              Colors.teal.shade700,
+              formattedTotal,
+              total > 0 ? Colors.teal.shade700 : AppColors.dangerColor,
               isTotal: true,
             ),
           ],

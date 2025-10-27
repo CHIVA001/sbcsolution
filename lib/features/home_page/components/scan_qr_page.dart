@@ -195,7 +195,12 @@ class _ScanQrPageState extends State<ScanQrPage>
       body: Obx(() {
         final label = _shifCtr.shiftId.isEmpty ? 'Check-in' : 'Check-out';
         if (_shifCtr.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors.primaryDarker,
+              strokeWidth: 1.5,
+            ),
+          );
         }
         return Stack(
           children: [
@@ -218,13 +223,18 @@ class _ScanQrPageState extends State<ScanQrPage>
 
                       final pos = await _determinePosition();
                       if (pos != null) {
+                        String longitute = '${pos.longitude}';
+                        String latitute = '${pos.latitude}';
                         //  Use unified controller method
-                        await _shifCtr.handleAttendance(
-                          latitute: pos.latitude.toString(),
-                          longitute: pos.longitude.toString(),
-                          fromQr: true,
-                        );
-                        // Get.back();
+                        if (latitute.isNotEmpty || longitute.isNotEmpty) {
+                          await _shifCtr.handleAttendance(
+                            latitute: pos.latitude.toString(),
+                            longitute: pos.longitude.toString(),
+                            fromQr: true,
+                          );
+                          log('latitute: $latitute');
+                          log('longitute: $longitute');
+                        }
                       } else {
                         setState(() => _isScanerSuccess = true);
                       }

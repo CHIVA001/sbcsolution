@@ -1,3 +1,4 @@
+import '/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,14 @@ class CustomerPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: buildAppBar(title: MyText.customer.tr),
+      ///////////////////
+      // floating
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.toNamed(AppRoutes.addCustomer),
+        child: Icon(Icons.add),
+      ),
+      ///////////////////
+      //  Body
       body: Column(
         children: [
           Column(
@@ -61,7 +70,7 @@ class CustomerPage extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          _controller.state.value == ViewState.loading
+                          _controller.state.value == CViewState.loading
                               ? 'Active:  ${_controller.activeCustomersCount}'
                               : 'Active:  ${_controller.activeCustomersCount + 1}',
                           style: textMeduim(),
@@ -90,12 +99,12 @@ class CustomerPage extends StatelessWidget {
           Expanded(
             child: Obx(() {
               // 🕑 Loading state
-              if (_controller.state.value == ViewState.loading) {
+              if (_controller.state.value == CViewState.loading) {
                 return const Center(child: CircularProgressIndicator());
               }
 
               // 🌐 Network error
-              if (_controller.state.value == ViewState.network) {
+              if (_controller.state.value == CViewState.network) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +129,7 @@ class CustomerPage extends StatelessWidget {
                 );
               }
 
-              // ❌ Error
+              //  Error
               if (_controller.isError.value) {
                 return Center(
                   child: Column(

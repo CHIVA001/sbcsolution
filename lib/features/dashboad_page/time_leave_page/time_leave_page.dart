@@ -21,19 +21,22 @@ class TimeLeavePage extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(
         title: MyText.timeLeave.tr,
-        action: Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: IconButton(
-            onPressed: () => Get.toNamed(AppRoutes.addTimeLeave),
-            color: AppColors.textPrimary,
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
-            ),
-            icon: Icon(Icons.add, size: 24.0),
-          ),
-        ),
+        // action: Padding(
+        //   padding: const EdgeInsets.only(right: 16.0),
+        //   child: IconButton(
+        //     onPressed: () => Get.toNamed(AppRoutes.addTimeLeave),
+        //     color: AppColors.textPrimary,
+        //     style: ButtonStyle(
+        //       backgroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
+        //     ),
+        //     icon: Icon(Icons.add, size: 24.0),
+        //   ),
+        // ),
       ),
-
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.toNamed(AppRoutes.addTimeLeave),
+        child: Icon(Icons.add),
+      ),
       body: RefreshIndicator(
         onRefresh: controller.getTimeLeave,
         child: Obx(() {

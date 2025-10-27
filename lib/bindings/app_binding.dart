@@ -10,6 +10,7 @@ import '../features/auth/controllers/auth_controller.dart';
 import '../features/auth/controllers/nav_bar_controller.dart';
 import '../features/dashboad_page/attendance_page/controllers/attendance_controller.dart';
 import '../features/dashboad_page/customer_page/controller/customer_controller.dart';
+import '../features/dashboad_page/customer_page/controller/customer_group_price_controller.dart';
 import '../features/products_page/controllers/cart_controller.dart';
 
 class AppBinding extends Bindings {
@@ -26,6 +27,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => DayOffController(), fenix: true);
     Get.lazyPut(() => ReportController(), fenix: true);
     Get.lazyPut(() => DeliveryController(), fenix: true);
+    Get.lazyPut(() => CustomerGroupPriceController(), fenix: true);
     Get.put(ShiftController(), permanent: true);
     Get.put(CartController(), permanent: true);
   }

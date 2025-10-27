@@ -311,8 +311,8 @@ class _AddTimeLeaveState extends State<AddTimeLeave> {
     return Container(
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: AppColors.primaryLighter.withOpacity(0.05),
-        border: Border.all(color: AppColors.primaryLight, width: 0.5),
+        color: AppColors.primaryColor.withOpacity(0.05),
+        border: Border.all(color: AppColors.primaryColor, width: 0.5),
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Column(
@@ -420,7 +420,7 @@ class _AddTimeLeaveState extends State<AddTimeLeave> {
       height: 50.0,
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryDark,
+          backgroundColor: AppColors.primaryColor,
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),

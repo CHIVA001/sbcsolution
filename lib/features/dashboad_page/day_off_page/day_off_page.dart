@@ -21,17 +21,21 @@ class DayOffPage extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(
         title: MyText.dayOff.tr,
-        action: Padding(
-          padding: const EdgeInsets.only(right: 16.0),
-          child: IconButton(
-            onPressed: () => Get.toNamed(AppRoutes.addDayoff),
-            color: AppColors.textPrimary,
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
-            ),
-            icon: Icon(Icons.add, size: 24.0),
-          ),
-        ),
+        // action: Padding(
+        //   padding: const EdgeInsets.only(right: 16.0),
+        //   child: IconButton(
+        //     onPressed: () => Get.toNamed(AppRoutes.addDayoff),
+        //     color: AppColors.textPrimary,
+        //     style: ButtonStyle(
+        //       backgroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
+        //     ),
+        //     icon: Icon(Icons.add, size: 24.0),
+        //   ),
+        // ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.toNamed(AppRoutes.addDayoff),
+        child: Icon(Icons.add),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {

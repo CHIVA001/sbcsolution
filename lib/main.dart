@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
         // floating action button
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: AppColors.primaryColor,
+          foregroundColor: AppColors.textLight,
           elevation: 0,
           iconSize: 32.0,
           focusColor: AppColors.primaryColor,
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
         ),
         //---------------------------------
         listTileTheme: const ListTileThemeData(
-          iconColor: AppColors.primaryLight,
+          iconColor: AppColors.primaryColor,
           textColor: AppColors.textPrimary,
           contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
         ),
@@ -85,12 +86,12 @@ class MyApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            backgroundColor: AppColors.primaryLight,
+            backgroundColor: AppColors.primaryColor,
             foregroundColor: Colors.white,
           ),
         ),
         radioTheme: const RadioThemeData(
-          fillColor: WidgetStatePropertyAll(AppColors.primaryLight),
+          fillColor: WidgetStatePropertyAll(AppColors.primaryColor),
           overlayColor: WidgetStatePropertyAll(Colors.transparent),
         ),
       ),

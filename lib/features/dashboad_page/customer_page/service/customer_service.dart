@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-import 'package:cyspharama_app/core/constants/app_url.dart';
+import '/core/constants/app_url.dart';
+import '/features/dashboad_page/customer_page/models/add_cusomer_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import '../customer_model.dart';
+import '../models/customer_model.dart';
 
 class CustomerService {
   Future<Response> fetchAllCustomers({int pageLimit = 10}) async {
@@ -53,6 +56,45 @@ class CustomerService {
       return Response(statusCode: 400, body: 'Invalid response format: $e');
     } catch (e) {
       return Response(statusCode: 500, body: e.toString());
+    }
+  }
+
+  // add Customers
+  Future<bool> addCustomer(AddCustomerModel customer) async {
+    final uri = Uri.parse(AppUrl.addCustomer);
+    final headers = {
+      'Content-Type': 'application/json',
+      'api-key': AppUrl.apiKey,
+    };
+
+    try {
+      final body = jsonEncode(customer.toJson());
+      final response = await http
+          .post(uri, headers: headers, body: body)
+          .timeout(Duration(seconds: 10));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final jsonResponse = jsonDecode(response.body);
+
+        if (jsonResponse['status'] == true) {
+          // log("✅ Customer added successfully: ${jsonResponse['message']}");
+          return true;
+        } else {
+          // log("❌ Failed to add customer: ${jsonResponse['message']}");
+          return false;
+        }
+      } else {
+        // log(
+        //   "❌ Failed to add customer. Status code: ${response.statusCode}, Body: ${response.body}",
+        // );
+        return false;
+      }
+    } on TimeoutException {
+      throw Exception('Request timed out. Please check your internet.');
+    } on SocketException {
+      throw Exception('No internet connection.');
+    } catch (e) {
+      throw Exception('Error adding customer: $e');
     }
   }
 }

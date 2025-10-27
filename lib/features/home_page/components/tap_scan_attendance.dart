@@ -73,7 +73,7 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
       setState(() {
         _isLongTap = false;
       });
-      return; // stop here
+      return;
     }
 
     String longitute = '${pos.longitude}';
@@ -82,7 +82,7 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
       await _shifCtr.handleAttendance(
         latitute: pos.latitude.toString(),
         longitute: pos.longitude.toString(),
-        fromQr: false, 
+        fromQr: false,
       );
       log('latitute: $latitute');
       log('longitute: $longitute');
@@ -206,6 +206,7 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    _shifCtr.getShiftId();
     return Scaffold(
       backgroundColor: AppColors.bgColorLight,
       appBar: AppBar(

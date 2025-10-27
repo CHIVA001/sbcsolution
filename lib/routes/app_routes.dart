@@ -1,3 +1,5 @@
+import 'package:cyspharama_app/features/dashboad_page/customer_page/add_customer.dart';
+
 import '../features/products_page/cart/confirm_cart.dart';
 import '/features/products_page/products_page.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,7 @@ class AppRoutes {
   static const String scanDispatch = '/scan_dispatch';
   static const String notification = '/notification';
   static const String confirmCart = '/confirmCart';
+  static const String addCustomer = '/addCustomer';
 
   static List<GetPage> routes = [
     //
@@ -57,61 +60,61 @@ class AppRoutes {
       name: attendance,
       page: () => AttendancePage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: timeLeave,
       page: () => TimeLeavePage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: dayOff,
       page: () => DayOffPage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: report,
       page: () => ReportPage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: product,
       page: () => ProductsPage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: countStock,
       page: () => CountStockPage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: sale,
       page: () => SalesPage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: delivery,
       page: () => DeliveryPage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: customer,
       page: () => CustomerPage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: scanDispatch,
       page: () => ScanDispatchPage(),
       transition: Transition.rightToLeft,
-      transitionDuration: Duration(milliseconds: 250),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: splash,
@@ -126,7 +129,8 @@ class AppRoutes {
     GetPage(
       name: addDayoff,
       page: () => AddDayOff(),
-      customTransition: MyCustomTransition(),
+      // customTransition: MyCustomTransition(),
+      transitionDuration: Duration(milliseconds: 200),
     ),
     GetPage(
       name: notification,
@@ -145,14 +149,22 @@ class AppRoutes {
       },
       transition: Transition.rightToLeft,
       transitionDuration: Duration(milliseconds: 200),
-    ), GetPage(
+    ),
+    GetPage(
       name: confirmCart,
       page: () => ConfirmCart(),
       transitionDuration: Duration(milliseconds: 200),
       transition: Transition.leftToRight,
     ),
+    GetPage(
+      name: addCustomer,
+      page: () => AddCustomer(),
+      transitionDuration: Duration(milliseconds: 200),
+      transition: Transition.rightToLeft,
+    ),
   ];
 }
+
 ProductModel getProductById(String id) {
   final controller = Get.find<ProductsController>();
   return controller.products.firstWhere(

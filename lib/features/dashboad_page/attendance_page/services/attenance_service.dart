@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
 import '../../../../core/constants/app_url.dart';
 import '../models/attenace_model.dart';
 

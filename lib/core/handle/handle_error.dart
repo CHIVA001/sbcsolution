@@ -213,3 +213,30 @@ class AttendanceDialog {
     );
   }
 }
+
+class AlertMessage {
+  static void show({required String title, required String middleText}) {
+    Get.defaultDialog(
+      title: title,
+      titlePadding: const EdgeInsets.symmetric(vertical: 16),
+      titleStyle: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+        color: Colors.black87,
+      ),
+      middleText: middleText,
+      middleTextStyle: const TextStyle(fontSize: 16, color: Colors.black54),
+      backgroundColor: Colors.white,
+      radius: 15,
+      contentPadding: const EdgeInsets.all(20),
+      barrierDismissible: false,
+      confirm: ElevatedButton(
+        onPressed: () {
+          Get.back();
+        },
+        style: IconButton.styleFrom(minimumSize: Size(double.infinity, 45.0)),
+        child: Text('OK'),
+      ),
+    );
+  }
+}

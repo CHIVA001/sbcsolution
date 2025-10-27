@@ -17,17 +17,15 @@ class ShiftService {
         body: {'user_id': userId, 'emp_id': empId},
       );
 
-      // log('Status: ${response.statusCode}');
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        // log('Response: $data');
 
         if (data['status'] == true && data['data'] != null) {
           final currentShiftData = data['data']['current_shift'];
 
-          if (currentShiftData is List && currentShiftData.isEmpty) {
-            // log('No current shift available.');
+          if (currentShiftData == null ||
+              (currentShiftData is List && currentShiftData.isEmpty)) {
+            log('No current shift available.');
             return null;
           }
 
@@ -47,8 +45,9 @@ class ShiftService {
         log('HTTP Error(shift CTR): ${response.statusCode}');
         return null;
       }
-    } catch (e) {
-      log('Error: $e');
+    } catch (e, s) {
+      log('Error in ShiftService.getShift: $e');
+      log('StackTrace: $s');
       return null;
     }
   }

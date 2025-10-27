@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'controllers/cart_controller.dart';
 import 'controllers/product_controller.dart';
 import 'models/product_model.dart';
-import 'products_page.dart';
 
 class ProductDetail extends StatelessWidget {
   ProductDetail({super.key, required this.product});

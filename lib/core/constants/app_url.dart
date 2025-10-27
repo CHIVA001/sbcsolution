@@ -24,6 +24,10 @@ class AppUrl {
   static const String getCategory = "$baseUrl/system_setting/categories";
   // Customers
   static const String getCustomer = '$baseUrl/companies';
+  static const String addCustomer = '$baseUrl/companies/add_customer';
+  static const String getCustomerGroups =
+      '$baseUrl/companies/getCustomerGroups';
+  static const String getPriceGroups = '$baseUrl/companies/getPriceGroups';
   // Sale
   static const String getSale = '$baseUrl/sales';
   // timeLeave

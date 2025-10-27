@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import '../../../core/themes/app_colors.dart';
-import 'customer_model.dart'; // avatar colors
+import 'models/customer_model.dart'; // avatar colors
 
 class CustomerDetailPage extends StatelessWidget {
   CustomerDetailPage({super.key, required this.customer});
@@ -69,8 +68,8 @@ class CustomerDetailPage extends StatelessWidget {
             ]),
             const SizedBox(height: 16),
             _buildInfoCard('Contact Information', [
-              _buildDetailRow('Email', customer.email ?? 'N/A', Icons.email),
-              _buildDetailRow('Phone', customer.phone ?? 'N/A', Icons.phone),
+              _buildDetailRow('Email', customer.email, Icons.email),
+              _buildDetailRow('Phone', customer.phone, Icons.phone),
               _buildDetailRow(
                 'Address',
                 customer.address ?? 'N/A',
@@ -82,6 +81,11 @@ class CustomerDetailPage extends StatelessWidget {
               _buildDetailRow(
                 'Customer Group',
                 customer.customerGroupName,
+                Icons.group,
+              ),
+              _buildDetailRow(
+                'Price Group',
+                customer.priceGroupName,
                 Icons.group,
               ),
               _buildDetailRow(
