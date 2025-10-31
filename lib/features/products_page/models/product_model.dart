@@ -1,4 +1,5 @@
 import 'category_model.dart';
+
 // hi
 class ProductModel {
   final bool addonItems;
@@ -43,7 +44,7 @@ class ProductModel {
       } else if (data is Map<String, dynamic>) {
         return [MultiUnit.fromJson(data)];
       }
-      return []; 
+      return [];
     }
 
     // Convert unit safely
