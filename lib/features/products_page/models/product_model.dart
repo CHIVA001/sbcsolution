@@ -43,7 +43,7 @@ class ProductModel {
       } else if (data is Map<String, dynamic>) {
         return [MultiUnit.fromJson(data)];
       }
-      return []; // When false or null
+      return []; 
     }
 
     // Convert unit safely
