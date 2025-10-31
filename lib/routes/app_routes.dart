@@ -1,5 +1,4 @@
-import 'package:cyspharama_app/features/dashboad_page/customer_page/add_customer.dart';
-
+import '/features/dashboad_page/customer_page/add_customer.dart';
 import '../features/products_page/cart/confirm_cart.dart';
 import '/features/products_page/products_page.dart';
 import 'package:flutter/material.dart';

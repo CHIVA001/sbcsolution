@@ -30,6 +30,7 @@ class AppUrl {
   static const String getPriceGroups = '$baseUrl/companies/getPriceGroups';
   // Sale
   static const String getSale = '$baseUrl/sales';
+  static const String getSaleOrder = '$baseUrl/sales_order';
   // timeLeave
   static const String timeLeave = '$baseUrl/attendance/get_apply_leave';
   // Dispatch

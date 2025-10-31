@@ -3,10 +3,8 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
-import '../../../bottom_nav_bar_page.dart';
 import '../../../core/handle/handle_error.dart';
-import '../../../data/models/user_model.dart';
+import '../models/user_model.dart';
 import '../../../routes/app_routes.dart';
 import '../../../services/auth_service.dart';
 import '../../../services/storage_service.dart';
@@ -51,13 +49,13 @@ class AuthController extends GetxController with WidgetsBindingObserver {
   Future<void> _initializeUser() async {
     final getUserId = await _storage.readData('user_id');
     _userId = getUserId ?? "";
-    // if (_userId.isNotEmpty) {
-    //   _refreshTimer = Timer.periodic(
-    //     const Duration(seconds: 2),
-    //     (timer) => _refreshUser(),
-    //   );
-    // }
-    _refreshUser();
+    if (_userId.isNotEmpty) {
+      _refreshTimer = Timer.periodic(
+        const Duration(seconds: 2),
+        (timer) => _refreshUser(),
+      );
+    }
+    // _refreshUser();
     getCompanies();
   }
 

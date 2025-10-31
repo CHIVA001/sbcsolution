@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 import '../core/constants/app_url.dart';
-import '../data/models/user_model.dart';
+import '../features/auth/models/user_model.dart';
 
 class AuthService {
   Future<UserModel> login(String username, String password) async {

@@ -5,10 +5,12 @@ import '../../../../core/constants/app_url.dart';
 import '../model/sale_model.dart';
 
 class SaleService {
-  Future<List<SaleModel>> fetchSales() async {
+  Future<List<SaleModel>> fetchSales({String type = 'all'}) async {
+    final String url = type == 'order' ? AppUrl.getSaleOrder : AppUrl.getSale;
+
     try {
       final response = await http.get(
-        Uri.parse(AppUrl.getSale),
+        Uri.parse(url),
         headers: {'api-key': AppUrl.apiKey},
       );
 

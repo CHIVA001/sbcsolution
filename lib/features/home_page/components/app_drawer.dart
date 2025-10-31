@@ -168,7 +168,7 @@ class _AppDrawerState extends State<AppDrawer> {
         children: [
           _languageOption('en', MyText.english.tr),
           _languageOption('kh', MyText.khmer.tr),
-          _languageOption('zh', MyText.chinese.tr),
+          // _languageOption('zh', MyText.chinese.tr),
         ],
       ),
       radius: 12,

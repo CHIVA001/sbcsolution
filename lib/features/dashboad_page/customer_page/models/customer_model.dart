@@ -51,7 +51,7 @@ class CustomerModel {
     required this.priceGroupName,
   });
 
-  // ✅ Parse from JSON (GET)
+  //  Parse from JSON (GET)
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
     return CustomerModel(
       id: _safeParseInt(json['id']),

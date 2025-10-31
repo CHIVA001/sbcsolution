@@ -36,38 +36,47 @@ class ProductModel {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
-  return ProductModel(
-    addonItems: json['addon_items'] ?? false,
-    category: (json['category'] is Map<String, dynamic>)
-        ? CategoryModel.fromJson(json['category'])
-        : null,
-    code: json['code']?.toString() ?? '',
-    id: json['id']?.toString() ?? '',
-    imageUrl: json['image_url']?.toString() ?? '',
-    multiUnit: (json['multi_unit'] is List)
-        ? List<MultiUnit>.from(
-            json['multi_unit'].map((x) => MultiUnit.fromJson(x)),
-          )
-        : (json['multi_unit'] is Map<String, dynamic>)
-            ? [MultiUnit.fromJson(json['multi_unit'])]
-            : [],
-    name: json['name']?.toString() ?? '',
-    netPrice: json['net_price']?.toString() ?? '',
-    options: json['options'] ?? false,
-    price: json['price']?.toString() ?? '',
-    slug: json['slug']?.toString(),
-    taxMethod: json['tax_method']?.toString() ?? '',
-    type: json['type']?.toString() ?? '',
-    unit: (json['unit'] is List)
-        ? List<Unit>.from(json['unit'].map((e) => Unit.fromJson(e)))
-        : (json['unit'] is Map<String, dynamic>)
-            ? [Unit.fromJson(json['unit'])]
-            : [],
-    unitPrice: json['unit_price']?.toString() ?? '',
-  );
-}
+    // Convert multi_unit safely
+    List<MultiUnit> parseMultiUnit(dynamic data) {
+      if (data is List) {
+        return data.map((x) => MultiUnit.fromJson(x)).toList();
+      } else if (data is Map<String, dynamic>) {
+        return [MultiUnit.fromJson(data)];
+      }
+      return []; // When false or null
+    }
 
+    // Convert unit safely
+    List<Unit> parseUnit(dynamic data) {
+      if (data is List) {
+        return data.map((e) => Unit.fromJson(e)).toList();
+      } else if (data is Map<String, dynamic>) {
+        return [Unit.fromJson(data)];
+      }
+      return [];
+    }
 
+    return ProductModel(
+      addonItems: json['addon_items'] ?? false,
+      category: (json['category'] is Map<String, dynamic>)
+          ? CategoryModel.fromJson(json['category'])
+          : null,
+      code: json['code']?.toString() ?? '',
+      id: json['id']?.toString() ?? '',
+      imageUrl: json['image_url']?.toString() ?? '',
+      multiUnit: parseMultiUnit(json['multi_unit']),
+      name: json['name']?.toString() ?? '',
+      netPrice: json['net_price']?.toString() ?? '',
+      // Convert options safely: sometimes it's a list, sometimes false
+      options: json['options'] is List ? true : false,
+      price: json['price']?.toString() ?? '',
+      slug: json['slug']?.toString(),
+      taxMethod: json['tax_method']?.toString() ?? '',
+      type: json['type']?.toString() ?? '',
+      unit: parseUnit(json['unit']),
+      unitPrice: json['unit_price']?.toString() ?? '',
+    );
+  }
 }
 
 class MultiUnit {

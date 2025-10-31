@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:app_settings/app_settings.dart';
+import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -28,7 +29,8 @@ class _ScanQrPageState extends State<ScanQrPage>
 
   // final _companyCtr = Get.find<AuthController>();
   final attCtr = Get.find<AttendanceController>();
-  final _shifCtr = Get.put(ShiftController());
+  final _shifCtr = Get.find<ShiftController>();
+  final _authCtr = Get.find<AuthController>();
   bool _isScanerSuccess = false;
   @override
   void initState() {
@@ -182,6 +184,7 @@ class _ScanQrPageState extends State<ScanQrPage>
 
   @override
   Widget build(BuildContext context) {
+    // _authCtr
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -213,7 +216,9 @@ class _ScanQrPageState extends State<ScanQrPage>
 
                   if (barcodes.isNotEmpty) {
                     final String? scannedQr = barcodes.first.rawValue;
-                    final String expectedQr = _shifCtr.qrCode;
+                    // final String expectedQr = _shifCtr.qrCode;
+                    final qr = _authCtr.companies.first.qrCode;
+                    final String expectedQr = qr!;
 
                     log("Scanned QR: $scannedQr");
                     log("Expected QR: $expectedQr");

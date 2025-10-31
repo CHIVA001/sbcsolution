@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:get/get.dart';
-import '../../../../data/models/user_model.dart';
+import '../../../auth/models/user_model.dart';
 import '../../../../services/storage_service.dart';
 import '../models/attenace_model.dart';
 import '../services/attenance_service.dart';

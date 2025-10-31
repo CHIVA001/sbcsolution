@@ -13,7 +13,7 @@ import '../services/attenance_service.dart';
 import '../services/shift_service.dart';
 
 class ShiftController extends GetxController {
-  final _companyCtr = Get.find<AuthController>();
+  final _companyCtr = Get.put<AuthController>(AuthController());
   var shift = Rxn<ShiftModel>();
   final attendanceService = AttendanceService();
   final shiftService = ShiftService();
