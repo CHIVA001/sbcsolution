@@ -1,14 +1,14 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/features/dashboad_page/time_leave_page/time_leave_model.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
+import 'package:cyspharama_app/routes/app_routes.dart' show AppRoutes;
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import '../../../core/localization/my_text.dart';
+import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_style.dart';
+import '../../../widgets/build_app_bar.dart';
 import 'time_leave_controller.dart';
+import 'time_leave_model.dart';
 
 class TimeLeavePage extends StatelessWidget {
   const TimeLeavePage({super.key});
@@ -21,26 +21,46 @@ class TimeLeavePage extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(
         title: MyText.timeLeave.tr,
-        action: Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: IconButton(
-            onPressed: () => Get.toNamed(AppRoutes.addTimeLeave),
-            color: AppColors.primaryColor,
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(
-                AppColors.primaryColor.withOpacity(0.2),
-              ),
-            ),
-            icon: Icon(Icons.add, size: 24.0),
-          ),
-        ),
+        // action: Padding(
+        //   padding: const EdgeInsets.only(right: 16.0),
+        //   child: IconButton(
+        //     onPressed: () => Get.toNamed(AppRoutes.addTimeLeave),
+        //     color: AppColors.textPrimary,
+        //     style: ButtonStyle(
+        //       backgroundColor: WidgetStatePropertyAll(AppColors.bgColorLight),
+        //     ),
+        //     icon: Icon(Icons.add, size: 24.0),
+        //   ),
+        // ),
       ),
-
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.toNamed(AppRoutes.addTimeLeave),
+        child: Icon(Icons.add),
+      ),
       body: RefreshIndicator(
         onRefresh: controller.getTimeLeave,
         child: Obx(() {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
+          }
+          if (controller.errorNetwork.value) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.wifi_off, size: 64.0, color: AppColors.darkGrey),
+                  Text(
+                    'Network not Available',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
+                  ElevatedButton.icon(
+                    onPressed: () => controller.getTimeLeave(),
+                    label: Text('Try again'),
+                  ),
+                ],
+              ),
+            );
           }
           if (controller.errorMessage.value) {
             return Center(
@@ -49,45 +69,15 @@ class TimeLeavePage extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.error_outline_outlined,
-                    size: 32.0,
-                    color: AppColors.dangerColor.withOpacity(0.5),
-                  ),
-                  Text(''),
-                  ElevatedButton.icon(
-                    onPressed: () => controller.getTimeLeave(),
-                    label: Text('Try again'),
-                  ),
-                ],
-              ),
-            );
-          }
-          if (controller.errorNetwork.value) {
-            return Center(
-              child: Column(
-                children: [
-                  Icon(Icons.wifi_off, size: 32.0, color: AppColors.darkGrey),
-                  Text('Network Available'),
-                  ElevatedButton.icon(
-                    onPressed: () => controller.getTimeLeave(),
-                    label: Text('Try again'),
-                  ),
-                ],
-              ),
-            );
-          }
-          if (controller.errorMessage.value) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error,
-                    size: 32.0,
+                    size: 64.0,
                     color: AppColors.dangerColor.withOpacity(0.5),
                   ),
                   SizedBox(height: 8.0),
-                  Text('Error something!', style: textdefualt()),
-                  SizedBox(height: 24.0),
+                  Text(
+                    'Error Service: 500',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
                   ElevatedButton.icon(
                     onPressed: () => controller.getTimeLeave(),
                     label: Text('Try again'),
@@ -98,38 +88,53 @@ class TimeLeavePage extends StatelessWidget {
           }
           if (controller.timeLeaveList.isEmpty) {
             return Center(
-              child: Text(
-                'No leave requests found',
-                style: theme.textTheme.titleMedium,
-              ),
-            );
-          } else {
-            return AnimationLimiter(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics(),
-                ),
-                padding: const EdgeInsets.all(16.0),
-                itemCount: controller.timeLeaveList.length,
-                itemBuilder: (context, index) {
-                  final leave = controller.timeLeaveList[index];
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    child: SlideAnimation(
-                      duration: Duration(milliseconds: 500),
-                      verticalOffset: 100,
-                      child: FadeInAnimation(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
-                          child: _buildLeaveCard(context, leave, theme),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.calendar_today,
+                    size: 64.0,
+                    color: AppColors.darkGrey,
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'No Time Leave Records',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
+                  ElevatedButton.icon(
+                    onPressed: () => controller.getTimeLeave(),
+                    label: Text('Refresh'),
+                  ),
+                ],
               ),
             );
           }
+          return AnimationLimiter(
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              padding: const EdgeInsets.all(16.0),
+              itemCount: controller.timeLeaveList.length,
+              itemBuilder: (context, index) {
+                final leave = controller.timeLeaveList[index];
+                return AnimationConfiguration.staggeredList(
+                  position: index,
+                  child: SlideAnimation(
+                    duration: Duration(milliseconds: 500),
+                    verticalOffset: 100,
+                    child: FadeInAnimation(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: _buildLeaveCard(context, leave, theme),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
         }),
       ),
     );

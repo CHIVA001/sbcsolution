@@ -1,13 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_model.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
-import 'package:cyspharama_app/widgets/build_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../widgets/build_app_bar.dart';
+import '../../auth/controllers/auth_controller.dart';
+import 'report_model.dart';
 
 class ReportDetail extends StatelessWidget {
   ReportDetail({super.key, required this.data});
@@ -183,13 +182,13 @@ class ReportDetail extends StatelessWidget {
                       TableRow(
                         children: [
                           _buildTableCell('Basic Salary', style: textdefualt()),
-                          _buildTableCell(data.basicSalary ?? "-"),
+                          _buildTableCell(data.basicSalary ?? "-", textAlign: TextAlign.right),
                         ],
                       ),
                       TableRow(
                         children: [
                           _buildTableCell('Overtime', style: textdefualt()),
-                          _buildTableCell(data.overtime ?? "-"),
+                          _buildTableCell(data.overtime ?? "-", textAlign: TextAlign.right),
                         ],
                       ),
                       TableRow(
@@ -198,40 +197,32 @@ class ReportDetail extends StatelessWidget {
                             'Cash advanced',
                             style: textdefualt(),
                           ),
-                          _buildTableCell(data.cashAdvanced ?? "-"),
-                        ],
-                      ),
-                      TableRow(
-                        children: [
-                          _buildTableCell(
-                            'Cash advanced',
-                            style: textdefualt(),
-                          ),
+                          _buildTableCell(data.cashAdvanced ?? "-", textAlign: TextAlign.right),
                         ],
                       ),
                       TableRow(
                         children: [
                           _buildTableCell('Tax Payment', style: textdefualt()),
-                          _buildTableCell(data.taxPayment ?? "-"),
+                          _buildTableCell(data.taxPayment ?? "-", textAlign: TextAlign.right),
                         ],
                       ),
 
                       TableRow(
                         children: [
                           _buildTableCell('Net Salary', style: textdefualt()),
-                          _buildTableCell('${data.netSalary ?? "-"}'),
+                          _buildTableCell('${data.netSalary ?? "-"}', textAlign: TextAlign.right),
                         ],
                       ),
                       TableRow(
                         children: [
                           _buildTableCell('Net Pay', style: textdefualt()),
-                          _buildTableCell('${data.netPay ?? "-"}'),
+                          _buildTableCell('${data.netPay ?? "-"}', textAlign: TextAlign.right),
                         ],
                       ),
                       TableRow(
                         children: [
                           _buildTableCell('Gross salary', style: textdefualt()),
-                          _buildTableCell(data.grossSalary ?? "-"),
+                          _buildTableCell(data.grossSalary ?? "-", textAlign: TextAlign.right),
                         ],
                       ),
                       TableRow(
@@ -240,7 +231,7 @@ class ReportDetail extends StatelessWidget {
                             'Total Gross salary',
                             style: textdefualt(),
                           ),
-                          _buildTableCell(data.totalGrossSalary ?? "-"),
+                          _buildTableCell(data.totalGrossSalary ?? "-", textAlign: TextAlign.right),
                         ],
                       ),
                       TableRow(
@@ -257,22 +248,12 @@ class ReportDetail extends StatelessWidget {
                             style: textdefualt().copyWith(
                               color: AppColors.textLight,
                             ),
+                            textAlign: TextAlign.right, 
                           ),
                         ],
                       ),
                     ],
                   ),
-                  // SizedBox(height: 16.0),
-                  // _textRow(
-                  //   title: 'Status:',
-                  //   widget: Container(
-                  //     padding: EdgeInsets.all(8),
-                  //     decoration: BoxDecoration(
-                  //       color: AppColors.primaryColor.withOpacity(0.2),
-                  //     ),
-                  //     child: Text(data.status!.toUpperCase()),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

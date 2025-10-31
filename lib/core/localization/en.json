@@ -19,6 +19,6 @@
   "product": "Product",
   "countstock": "Count Stock",
   "sales": "Sales",
-  "delivery": "Delivery",
+  "delivery": "Dispatch",
   "customer": "Customer"
 }

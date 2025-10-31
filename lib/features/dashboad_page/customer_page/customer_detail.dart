@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'customer_model.dart'; // avatar colors
+import '../../../core/themes/app_colors.dart';
+import 'models/customer_model.dart'; // avatar colors
 
 class CustomerDetailPage extends StatelessWidget {
   CustomerDetailPage({super.key, required this.customer});
@@ -44,7 +45,7 @@ class CustomerDetailPage extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.backgroundColor,
         elevation: 0.5,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
@@ -67,8 +68,8 @@ class CustomerDetailPage extends StatelessWidget {
             ]),
             const SizedBox(height: 16),
             _buildInfoCard('Contact Information', [
-              _buildDetailRow('Email', customer.email ?? 'N/A', Icons.email),
-              _buildDetailRow('Phone', customer.phone ?? 'N/A', Icons.phone),
+              _buildDetailRow('Email', customer.email, Icons.email),
+              _buildDetailRow('Phone', customer.phone, Icons.phone),
               _buildDetailRow(
                 'Address',
                 customer.address ?? 'N/A',
@@ -80,6 +81,11 @@ class CustomerDetailPage extends StatelessWidget {
               _buildDetailRow(
                 'Customer Group',
                 customer.customerGroupName,
+                Icons.group,
+              ),
+              _buildDetailRow(
+                'Price Group',
+                customer.priceGroupName,
                 Icons.group,
               ),
               _buildDetailRow(
@@ -97,7 +103,8 @@ class CustomerDetailPage extends StatelessWidget {
 
   Widget _buildProfileHeaderCard(CustomerModel customer, Color color) {
     return Card(
-      elevation: 4,
+      // elevation: 4,
+      color: AppColors.bgColorLight,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -135,7 +142,8 @@ class CustomerDetailPage extends StatelessWidget {
 
   Widget _buildInfoCard(String title, List<Widget> details) {
     return Card(
-      elevation: 2,
+      // elevation: 2,
+      color: AppColors.bgColorLight,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),

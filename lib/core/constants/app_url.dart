@@ -1,9 +1,8 @@
 class AppUrl {
-  // 
+  //
   static const String baseUrl = 'http://178.128.24.212:9876/cyspharma/api/v1';
   static const String apiKey = "000osk04w4ow0ogs0c8s84w44048cgkw4cgoskkc";
   static const String authApiKey = "000osk04w4ow0ogs0c8s84w44048cgkw4cgoskkc";
-
 
   // login
   static const String loginUrl = '$baseUrl/auth/login';
@@ -18,11 +17,25 @@ class AppUrl {
   static const String getDayOff = '$baseUrl/attendance/get_apply_dayoff';
   static const String addDayOff = '$baseUrl/attendance/apply_dayoff';
   static const String postApplyLeave = '$baseUrl/attendance/apply_leave';
-  static const String getAttendance = '$baseUrl/attendance/get_checkin_checkout';
+  static const String getAttendance =
+      '$baseUrl/attendance/get_checkin_checkout';
+  // Product
   static const String getProduct = '$baseUrl/products';
+  static const String getCategory = "$baseUrl/system_setting/categories";
+  // Customers
   static const String getCustomer = '$baseUrl/companies';
+  static const String addCustomer = '$baseUrl/companies/add_customer';
+  static const String getCustomerGroups =
+      '$baseUrl/companies/getCustomerGroups';
+  static const String getPriceGroups = '$baseUrl/companies/getPriceGroups';
+  // Sale
   static const String getSale = '$baseUrl/sales';
-    static const String timeLeave = '${baseUrl}attendance/get_apply_leave';
+  static const String getSaleOrder = '$baseUrl/sales_order';
+  // timeLeave
+  static const String timeLeave = '$baseUrl/attendance/get_apply_leave';
+  // Dispatch
+  static const String getDispatch = '$baseUrl/deliveries/getDispatch';
+  static const String updateDispatch = '$baseUrl/deliveries/delivery_status';
 
   // attendance
   static const String getShift = '$baseUrl/attendance/get_currentshift';

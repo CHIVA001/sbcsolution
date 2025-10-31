@@ -1,9 +1,10 @@
 // This service handles all API interactions.
 
 import 'dart:convert';
-import 'package:cyspharama_app/core/constants/app_url.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../../core/constants/app_url.dart';
 
 class ApiService {
   // Fetches the user's profile.

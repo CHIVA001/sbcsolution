@@ -1,15 +1,16 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/models/attenace_model.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/localization/my_text.dart';
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../routes/app_routes.dart';
+import '../../../widgets/build_app_bar.dart';
+import 'attendance_detail.dart';
 import 'controllers/attendance_controller.dart';
+import 'models/attenace_model.dart';
 
 class AttendancePage extends StatefulWidget {
   const AttendancePage({super.key});
@@ -47,49 +48,67 @@ class _AttendancePageState extends State<AttendancePage> {
     return Scaffold(
       appBar: buildAppBar(
         onPressed: () => Get.offAllNamed(AppRoutes.navBar),
+        // onPressed: () => Get.back(),
         title: MyText.attendance.tr,
         action: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: IconButton(
             onPressed: () => _selectDate(context),
-            icon: Icon(Icons.date_range, size: 26.0),
+            icon: Icon(
+              Icons.date_range,
+              size: 26.0,
+              color: AppColors.textLight,
+            ),
           ),
         ),
       ),
       body: Obx(() {
         if (_controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
-        }
-        if (_controller.checkInOutData.isEmpty) {
+        } else if (_controller.errorNetwork.value) {
           return Center(
-            child: Text(
-              'Not Attendance',
-              style: textdefualt().copyWith(
-                color: AppColors.darkGrey,
-                fontSize: 20.0,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.wifi_off, size: 64.0, color: AppColors.darkGrey),
+                Text(
+                  'Network not Available',
+                  style: textMeduim().copyWith(color: AppColors.darkGrey),
+                ),
+                SizedBox(height: 8.0),
+                ElevatedButton.icon(
+                  onPressed: () => _controller.getCheckInOut(),
+                  label: Text('Refresh'),
+                ),
+              ],
             ),
           );
-        }
-        if (_controller.isError.value) {
+        } else if (_controller.isError.value) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   Icons.error,
-                  size: 32.0,
+                  size: 64.0,
                   color: AppColors.dangerColor.withOpacity(0.5),
                 ),
                 SizedBox(height: 8.0),
-                Text('Error something!', style: textdefualt()),
-                SizedBox(height: 24.0),
+                Text(_controller.errorMessage.value, style: textdefualt()),
+                SizedBox(height: 8.0),
                 ElevatedButton.icon(
                   onPressed: () => _controller.getCheckInOut(),
-                  label: Text('Try again'),
+                  label: Text('Refresh'),
                 ),
               ],
             ),
+          );
+        } else if (_controller.checkInOutData.isEmpty) {
+          return _buildEmptyState(
+            _controller.empId.isNotEmpty ? _controller.empId : 'N/A',
+            _selectedDate != null
+                ? DateFormat('dd-MMM-yyyy').format(_selectedDate!)
+                : DateFormat('dd-MMM-yyyy').format(DateTime.now()),
           );
         }
 
@@ -154,7 +173,7 @@ class _AttendancePageState extends State<AttendancePage> {
                 final totalTime = item.shiftTotalTime != null
                     ? '${item.shiftTotalTime} mn'
                     : '== ** ==';
-                    
+
                 return AnimationConfiguration.staggeredList(
                   position: index,
                   child: SlideAnimation(
@@ -162,7 +181,7 @@ class _AttendancePageState extends State<AttendancePage> {
                     verticalOffset: 100,
                     child: FadeInAnimation(
                       child: GestureDetector(
-                        onLongPress: () async {
+                        onTap: () async {
                           final checkinLat = item.checkinLocation?.latitude;
                           final checkinLng = item.checkinLocation?.longitude;
                           final checkoutLat = item.checkoutLocation?.latitude;
@@ -175,7 +194,7 @@ class _AttendancePageState extends State<AttendancePage> {
                                   checkinLat,
                                   checkinLng,
                                 )
-                              : "You not Check-In";
+                              : "No Check-In record found.";
 
                           final checkoutAddress =
                               (checkoutLat != null && checkoutLng != null)
@@ -183,44 +202,24 @@ class _AttendancePageState extends State<AttendancePage> {
                                   checkoutLat,
                                   checkoutLng,
                                 )
-                              : "You not Check-Out";
+                              : "No Check-Out record found.";
 
                           final totalMinute = item.shiftTotalTime != null
-                              ? '${item.shiftTotalTime} minute'
-                              : 'You not Check-out';
+                              ? '${item.shiftTotalTime} minutes'
+                              : 'No Check-Out record found.';
 
-                          Get.defaultDialog(
-                            title: 'Attendance Detail',
-                            content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Divider(),
-                                Text('Total Time', style: textMeduim()),
-                                Text(totalMinute),
-                                Divider(),
-                                Text('Check In At', style: textMeduim()),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: Text(
-                                    checkinAddress,
-                                    style: textMeduim(),
-                                  ),
-                                ),
-                                Divider(),
-                                Text('Check Out At', style: textMeduim()),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16.0,
-                                  ),
-                                  child: Text(
-                                    checkoutAddress,
-                                    style: textMeduim(),
-                                  ),
-                                ),
-                              ],
+                          Get.to(
+                            () => AttendanceDetail(
+                              fullName: item.fullName,
+                              checkInTime: formattedCheckInTime,
+                              checkOutTime: formattedCheckOutTime,
+                              checkInDate: formattedCheckInDate,
+                              checkOutDate: formattedCheckOutDate,
+                              checkInAddress: checkinAddress,
+                              checkOutAddress: checkoutAddress,
+                              totalMinute: totalMinute,
                             ),
+                            transition: Transition.rightToLeftWithFade,
                           );
                         },
 

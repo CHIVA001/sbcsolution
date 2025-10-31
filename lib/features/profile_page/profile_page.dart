@@ -1,11 +1,11 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_style.dart';
 import '../../core/utils/app_image.dart';
 import '../../widgets/build_app_bar.dart';
+import '../../widgets/cached_image.dart';
+import '../auth/controllers/auth_controller.dart';
 import '../home_page/components/app_drawer.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -49,9 +49,19 @@ class ProfilePage extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 64.0),
-            
+            Text(
+              '@${user?.username}',
+              style: textdefualt().copyWith(color: AppColors.darkGrey),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 40.0),
+
             SizedBox(height: 12.0),
+            user?.empId != '0'
+                ? _textInput(icon: Icons.person, hintText: 'Employee')
+                : SizedBox.shrink(),
+
+            SizedBox(height: 16.0),
             _textInput(
               icon: Icons.phone,
               hintText: user?.phone != '' ? '${user?.phone}' : 'N/A',
@@ -64,7 +74,7 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 16.0),
             _textInput(
               // for gender
-              icon: Icons.person,
+              icon: user?.gender == 'male' ? Icons.male : Icons.woman,
               hintText: user?.gender != null ? '${user?.gender}' : 'N/A',
             ),
             SizedBox(height: 16.0),
@@ -73,6 +83,7 @@ class ProfilePage extends StatelessWidget {
               icon: Icons.work,
               hintText: user?.company != null ? '${user?.company}' : 'N/A',
             ),
+            SizedBox(height: 40.0),
           ],
         );
       }),

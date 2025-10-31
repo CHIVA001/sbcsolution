@@ -1,12 +1,13 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/dashboad_page/day_off_page/day_off_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/day_off_page/day_off_model.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
-import 'package:cyspharama_app/widgets/build_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../widgets/build_app_bar.dart';
+import '../../../widgets/build_card.dart';
+import 'day_off_controller.dart';
+import 'day_off_model.dart';
 
 class AddDayOff extends StatefulWidget {
   const AddDayOff({super.key});
@@ -181,55 +182,54 @@ class _AddDayOffState extends State<AddDayOff> {
                 ),
               ),
             ),
-            BuildCard(
-              margin: EdgeInsets.all(24.0),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Note (Optional)',
-                      style: textBold().copyWith(fontSize: 18.0),
-                    ),
-                    SizedBox(height: 16.0),
-                    TextFormField(
-                      controller: _noteCtr,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 1.5,
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 12.0,
-                          horizontal: 16.0,
-                        ),
-                        hintText: 'Add a brief note...',
-                        prefixIcon: const Padding(
-                          padding: EdgeInsets.only(bottom: 70),
-                          child: Icon(Icons.note_alt_outlined, size: 26.0),
-                        ),
-                      ),
-                      maxLines: 4,
-                      keyboardType: TextInputType.multiline,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // BuildCard(
+            //   margin: EdgeInsets.all(24.0),
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: Column(
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           'Note (Optional)',
+            //           style: textBold().copyWith(fontSize: 18.0),
+            //         ),
+            //         SizedBox(height: 16.0),
+            //         TextFormField(
+            //           controller: _noteCtr,
+            //           decoration: InputDecoration(
+            //             border: OutlineInputBorder(
+            //               borderRadius: BorderRadius.circular(12.0),
+            //             ),
+            //             focusedBorder: OutlineInputBorder(
+            //               borderRadius: BorderRadius.circular(12.0),
+            //               borderSide: BorderSide(
+            //                 color: AppColors.primaryColor,
+            //                 width: 1.5,
+            //               ),
+            //             ),
+            //             contentPadding: EdgeInsets.symmetric(
+            //               vertical: 12.0,
+            //               horizontal: 16.0,
+            //             ),
+            //             hintText: 'Add note...',
+            //             prefixIcon: const Padding(
+            //               padding: EdgeInsets.only(bottom: 70),
+            //               child: Icon(Icons.note_alt_outlined, size: 26.0),
+            //             ),
+            //           ),
+            //           maxLines: 4,
+            //           keyboardType: TextInputType.multiline,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 32.0),
             Container(
               height: 50.0,
               padding: EdgeInsets.symmetric(horizontal: 24.0),
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.successColor,
                   padding: const EdgeInsets.symmetric(
                     vertical: 12.0,
                     horizontal: 24.0,

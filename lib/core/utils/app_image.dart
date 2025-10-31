@@ -1,6 +1,8 @@
 //
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
+
+
+import '../../routes/app_routes.dart';
+import '../localization/my_text.dart';
 
 class AppImage {
   static const String logoApp = 'assets/logos/logo.png';
@@ -49,7 +51,7 @@ final List<Map<String, dynamic>> dashboadItem = [
   {
     'icon': '$path/delivery_icon.png',
     'title': MyText.delivery,
-    'page': () => AppRoutes.delivery,
+    'page': () => AppRoutes.scanDispatch,
   },
   {
     'icon': '$path/customer_icon.png',

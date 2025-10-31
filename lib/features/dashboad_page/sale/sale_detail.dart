@@ -1,6 +1,6 @@
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
+import 'package:cyspharama_app/widgets/build_app_bar.dart';
 import 'package:flutter/material.dart';
+import '../../../core/themes/app_colors.dart';
 import 'model/sale_model.dart';
 
 class SaleDetailPage extends StatelessWidget {
@@ -11,13 +11,7 @@ class SaleDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sale Details'),
-        centerTitle: true,
-        elevation: 0.5,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
+      appBar: buildAppBar(title: 'Sale Details'),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [

@@ -1,17 +1,18 @@
-import 'package:cyspharama_app/core/utils/app_image.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/features/auth/controllers/nav_bar_controller.dart';
-import 'package:cyspharama_app/features/home_page/components/app_drawer.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/features/home_page/components/scan_qr_page.dart';
-import 'package:cyspharama_app/features/home_page/components/tap_scan_attendance.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
+import 'package:cyspharama_app/core/handle/handle_error.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
+import '../../core/themes/app_colors.dart';
 import '../../core/themes/app_style.dart';
+import '../../core/utils/app_image.dart';
+import '../../widgets/build_app_bar.dart';
 import '../../widgets/cached_image.dart';
+import '../auth/controllers/auth_controller.dart';
+import '../auth/controllers/nav_bar_controller.dart';
+import 'components/app_drawer.dart';
+import 'components/scan_qr_page.dart';
+import 'components/tap_scan_attendance.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _controller.refreshUser();
+      _controller.refreshUser();
     super.initState();
   }
 
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       // drawer
       drawer: AppDrawer(),
       body: RefreshIndicator(
-        onRefresh: () async => _controller.getProfile(),
+        onRefresh: () async => _controller.refreshUser(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: CustomScrollView(
@@ -213,7 +214,9 @@ class _HomePageState extends State<HomePage> {
         height: 60,
         child: FloatingActionButton(
           onPressed: () {
-            if (user != null && user.isRemoteAllow == "0") {
+            if (user?.empId == '0') {
+              MessageDialog.error('Check In/Out For Employee only');
+            } else if (user != null && user.isRemoteAllow == "0") {
               Get.to(() => ScanQrPage(), transition: Transition.downToUp);
             } else {
               Get.to(

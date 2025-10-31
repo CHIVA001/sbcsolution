@@ -1,15 +1,17 @@
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/auth/controllers/auth_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/controllers/attendance_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/controllers/shift_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:app_settings/app_settings.dart';
+
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../auth/controllers/auth_controller.dart';
+import '../../dashboad_page/attendance_page/controllers/attendance_controller.dart';
+import '../../dashboad_page/attendance_page/controllers/shift_controller.dart';
 
 class TapScanAttendance extends StatefulWidget {
   const TapScanAttendance({super.key});
@@ -67,32 +69,24 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
     });
     if (_shifCtr.isLoading.value) return;
     Position? pos = await _determinePosition();
-    // String location = pos != null
-    //     ? '{"latitute":${pos.latitude},"longitute":${pos.longitude}}'
-    //     : '{"latitute":null,"longitute":null}';
     if (pos == null) {
       setState(() {
         _isLongTap = false;
       });
-      return; // stop here
+      return;
     }
 
     String longitute = '${pos.longitude}';
     String latitute = '${pos.latitude}';
     if (latitute.isNotEmpty || longitute.isNotEmpty) {
-      // await _shifCtr.handleTapCheckInOut(
-      //   latitute: latitute,
-      //   longitute: longitute,
-      // );
       await _shifCtr.handleAttendance(
         latitute: pos.latitude.toString(),
         longitute: pos.longitude.toString(),
-        fromQr: false, // 👉 tap mode
+        fromQr: false,
       );
       log('latitute: $latitute');
       log('longitute: $longitute');
     }
-    // _shifCtr.handleTap();
     setState(() {
       _isLongTap = false;
     });
@@ -101,15 +95,19 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
   Future<Position?> _determinePosition() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Get.snackbar("Location", "Please enable location services");
       Get.defaultDialog(
         title: 'Location',
-        radius: 2,
+        radius: 8,
         titleStyle: textBold().copyWith(fontSize: 24.0),
-
         content: Column(
           children: [
-            Text('Please enable location services', style: textdefualt()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Text(
+                'Please enable your location service and try again.',
+                style: textdefualt(),
+              ),
+            ),
           ],
         ),
         actions: [
@@ -135,22 +133,59 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         Get.defaultDialog(
-          title: 'Location',
+          title: 'Location Permission',
           titlePadding: EdgeInsets.symmetric(vertical: 8.0),
           content: Column(
-            children: [Text('Location permission permanently denied')],
+            children: [
+              Text(
+                'Location permission denied. Please allow location access to use this feature.',
+              ),
+            ],
           ),
+          actions: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text(
+                  "Ok",
+                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          ],
         );
         return null;
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      Get.defaultDialog(
-        title: 'Location',
-        titlePadding: EdgeInsets.symmetric(vertical: 8.0),
-        content: Column(
-          children: [Text('Location permission permanently denied')],
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Error'),
+          content: Text(
+            'Location permission has been permanently denied. '
+            'Please enable it manually in Settings.',
+            style: textMeduim(),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => AppSettings.openAppSettings(),
+              child: Text('Settings', style: textdefualt()),
+            ),
+            TextButton(
+              onPressed: () => Get.back(),
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.primaryColor,
+              ),
+              child: Text(
+                'OK',
+                style: textdefualt().copyWith(color: AppColors.textLight),
+              ),
+            ),
+          ],
         ),
       );
       return null;
@@ -171,6 +206,7 @@ class _TapScanAttendanceState extends State<TapScanAttendance>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    _shifCtr.getShiftId();
     return Scaffold(
       backgroundColor: AppColors.bgColorLight,
       appBar: AppBar(

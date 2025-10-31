@@ -1,7 +1,8 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../core/localization/my_text.dart';
+import '../../widgets/build_app_bar.dart';
 
 class CountStockPage extends StatelessWidget {
   const CountStockPage({super.key});

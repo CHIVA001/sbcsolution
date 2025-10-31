@@ -1,15 +1,15 @@
 import 'dart:developer';
-
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/dashboad_page/time_leave_page/time_leave_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/time_leave_page/time_leave_model.dart';
-import 'package:cyspharama_app/services/storage_service.dart';
-import 'package:cyspharama_app/widgets/build_app_bar.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
+import '../../../services/storage_service.dart';
+import '../../../widgets/build_app_bar.dart';
+import 'time_leave_controller.dart';
+import 'time_leave_model.dart';
 
 class AddTimeLeave extends StatefulWidget {
   const AddTimeLeave({super.key});
@@ -311,8 +311,8 @@ class _AddTimeLeaveState extends State<AddTimeLeave> {
     return Container(
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: AppColors.primaryLighter.withOpacity(0.05),
-        border: Border.all(color: AppColors.primaryLight, width: 0.5),
+        color: AppColors.primaryColor.withOpacity(0.05),
+        border: Border.all(color: AppColors.primaryColor, width: 0.5),
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Column(
@@ -420,7 +420,7 @@ class _AddTimeLeaveState extends State<AddTimeLeave> {
       height: 50.0,
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryDark,
+          backgroundColor: AppColors.primaryColor,
           padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),

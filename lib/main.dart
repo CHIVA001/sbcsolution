@@ -1,11 +1,14 @@
-import 'package:cyspharama_app/bindings/app_binding.dart';
-import 'package:cyspharama_app/core/localization/transtation.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import 'bindings/app_binding.dart';
+import 'core/localization/transtation.dart';
+import 'core/themes/app_colors.dart';
+import 'features/auth/controllers/auth_controller.dart';
+import 'features/dashboad_page/attendance_page/controllers/shift_controller.dart';
+import 'routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +21,9 @@ void main() async {
       statusBarBrightness: Brightness.light,
     ),
   );
-
+   Get.put(ShiftController(), permanent: true);
+    Get.put(AuthController(), permanent: true);
   await AppTranslations.loadTranslations(['en', 'kh', 'zh']);
-
   runApp(MyApp());
 }
 
@@ -49,6 +52,7 @@ class MyApp extends StatelessWidget {
         // floating action button
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: AppColors.primaryColor,
+          foregroundColor: AppColors.textLight,
           elevation: 0,
           iconSize: 32.0,
           focusColor: AppColors.primaryColor,
@@ -75,7 +79,7 @@ class MyApp extends StatelessWidget {
         ),
         //---------------------------------
         listTileTheme: const ListTileThemeData(
-          iconColor: AppColors.primaryLight,
+          iconColor: AppColors.primaryColor,
           textColor: AppColors.textPrimary,
           contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
         ),
@@ -84,12 +88,12 @@ class MyApp extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            backgroundColor: AppColors.primaryLight,
+            backgroundColor: AppColors.primaryColor,
             foregroundColor: Colors.white,
           ),
         ),
         radioTheme: const RadioThemeData(
-          fillColor: WidgetStatePropertyAll(AppColors.primaryLight),
+          fillColor: WidgetStatePropertyAll(AppColors.primaryColor),
           overlayColor: WidgetStatePropertyAll(Colors.transparent),
         ),
       ),

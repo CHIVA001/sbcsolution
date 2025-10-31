@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:cyspharama_app/core/constants/app_url.dart';
-import 'package:cyspharama_app/features/dashboad_page/attendance_page/models/attenace_model.dart';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import '../../../../core/constants/app_url.dart';
+import '../models/attenace_model.dart';
 
 class AttendanceService {
   Future<bool> isChekinOut(
@@ -129,7 +130,7 @@ class AttendanceService {
         'shift_id': shiftId,
         "latitute": latitute,
         "longitute": longitute,
-        "qr_code":qrCode
+        "qr_code": qrCode,
       },
     );
     return json.decode(response.body);
@@ -140,11 +141,12 @@ class AttendanceService {
   // get check in out list
   Future<List<CheckInOutModel>> getCheckInOutList(String employeeId) async {
     try {
-      final response = await http.get(
-        Uri.parse(
-          "${AppUrl.getAttendance}?api-key=${AppUrl.apiKey}&employee_id=$employeeId",
-        ),
-      );
+      final response = await http
+          .get(
+            Uri.parse("${AppUrl.getAttendance}?employee_id=$employeeId"),
+            headers: {'api-key': AppUrl.apiKey},
+          )
+          .timeout(const Duration(seconds: 10));
       final data = json.decode(response.body);
       if (response.statusCode == 200) {
         if (data['status'] == true) {
@@ -156,6 +158,10 @@ class AttendanceService {
         }
       }
       return [];
+    } on TimeoutException {
+      throw TimeoutException('The connection has timed out.');
+    } on SocketException {
+      throw SocketException('No Internet connection');
     } catch (e) {
       throw Exception('Get Attendance Failed');
     }

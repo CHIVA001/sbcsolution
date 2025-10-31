@@ -1,15 +1,14 @@
-import 'package:cyspharama_app/core/localization/my_text.dart';
-import 'package:cyspharama_app/core/themes/app_colors.dart';
-import 'package:cyspharama_app/core/themes/app_style.dart';
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_controller.dart';
-import 'package:cyspharama_app/features/dashboad_page/report_page/report_detail.dart';
-import 'package:cyspharama_app/widgets/build_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
+import '../../../core/localization/my_text.dart';
+import '../../../core/themes/app_colors.dart';
+import '../../../core/themes/app_style.dart';
 import '../../../widgets/build_app_bar.dart';
+import '../../../widgets/build_card.dart';
+import 'report_controller.dart';
+import 'report_detail.dart';
 
 class ReportPage extends StatelessWidget {
   const ReportPage({super.key});
@@ -25,27 +24,50 @@ class ReportPage extends StatelessWidget {
           if (controller.isLoading.value) {
             return Center(child: CircularProgressIndicator());
           }
+          if (controller.errorNetwork.value) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.wifi_off, size: 64.0, color: AppColors.darkGrey),
+                  Text(
+                    'Network not Available',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
+                  ElevatedButton.icon(
+                    onPressed: () => controller.getReport(),
+                    label: Text('Refresh'),
+                  ),
+                ],
+              ),
+            );
+          }
           if (controller.isError.value) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    Icons.error,
-                    size: 32.0,
+                    Icons.error_outline_outlined,
+                    size: 64.0,
                     color: AppColors.dangerColor.withOpacity(0.5),
                   ),
                   SizedBox(height: 8.0),
-                  Text('Error something!', style: textdefualt()),
-                  SizedBox(height: 24.0),
+                  Text(
+                    'Error Service: 500',
+                    style: textMeduim().copyWith(color: AppColors.darkGrey),
+                  ),
+                  SizedBox(height: 8.0),
                   ElevatedButton.icon(
                     onPressed: () => controller.getReport(),
-                    label: Text('Try again'),
+                    label: Text('Refresh'),
                   ),
                 ],
               ),
             );
           }
+
           if (controller.reportSalary.isEmpty) {
             return Center(
               child: Text(
